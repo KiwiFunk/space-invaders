@@ -42,6 +42,7 @@ body {
     width: 15rem;
     transform: translate(-50%, -50%);
     border-radius: 10px;
+    border-color: white;
     padding: 10px 20px;
     font-size: 20px;
     cursor: pointer;
