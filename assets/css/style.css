@@ -122,6 +122,10 @@ body {
     height: auto;
     animation: movePlayer 5s infinite alternate ease-in-out;
 }
+.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
 
 /* Sprites */
 .invaderBasic {
