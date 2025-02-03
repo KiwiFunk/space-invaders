@@ -16,6 +16,7 @@ body {
 
 /* Global Styles */
 .hidden {
+    display: none !important;
     opacity: 0 !important;
     pointer-events: none !important;
 }
@@ -172,10 +173,171 @@ body {
     height: 90%;
 }
 
+/* Modal Styles */
+.modal {
+    display: block;
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+
+    /* WORK ON ADDING A FADEINOUT EFFECT */
+}
+
+.modal-content {
+    background-color: #333333;
+    margin: 10% auto; /* 10% from the top and centered */
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 0.25rem; /* Rounded corners */
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075); /* Bootstrap-like shadow */
+    width: 80%; /* Could be more or less, depending on screen size */
+    max-width: 600px; /* Max width for larger screens */
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid #e9ecef;
+    padding-bottom: 0.75rem;
+    margin-bottom: 1rem;
+    color: #e9ecef;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 3px;
+}
+
+.close-button {
+    color: #000;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: #dc3545; /* Bootstrap-like danger color */
+    text-decoration: none;
+    outline: none;
+}
+
+.modal-body {
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    color: #e9ecef;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.instructions li {
+    margin-bottom: 1rem;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 1rem;
+    border-top: 1px solid #e9ecef;
+}
+
+.return-button {
+    background-color: #D9A761;
+    color: black;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: 400;
+    letter-spacing: 2px;
+    cursor: pointer;
+    border-radius: 0.25rem;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.return-button:hover,
+.return-button:focus {
+    background-color: #492666;
+    color: white;
+    outline: none;
+}
+
+/* Pause Menu Styles */
+#pauseMenu .modal-content {
+    background-color: #333333;
+    margin: 10% auto; /* 10% from the top and centered */
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 0.25rem; /* Rounded corners */
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075); /* Bootstrap-like shadow */
+    width: 80%; /* Could be more or less, depending on screen size */
+    max-width: 600px; /* Max width for larger screens */
+}
+
+#pauseMenu .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid #e9ecef;
+    padding-bottom: 0.75rem;
+    margin-bottom: 1rem;
+    color: #e9ecef;
+}
+
+#pauseMenu .modal-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 3px;
+}
+
+#pauseMenu .modal-body {
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    color: #e9ecef;
+    font-family: 'Orbitron', sans-serif;
+}
+
+#pauseMenu .modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 1rem;
+    border-top: 1px solid #e9ecef;
+}
+
+.resume-button {
+    background-color: #D9A761;
+    color: black;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: 400;
+    letter-spacing: 2px;
+    cursor: pointer;
+    border-radius: 0.25rem;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.resume-button:hover,
+.resume-button:focus {
+    background-color: #492666;
+    color: white;
+    outline: none;
+}
+
 /* Keyframes for animation */
 @keyframes movePlayer {
     from {
-        left: 1%;
+        left: 15%;
     }
     to {
         left: calc(100% - 15%);

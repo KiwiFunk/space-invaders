@@ -2,7 +2,6 @@
 import Player from './player.js';
 import Invader from './invaders.js';
 
-//Global Instances
 //Object Instances
 let player;
 let enemyInvaders = [];
@@ -53,17 +52,61 @@ document.addEventListener('DOMContentLoaded', function() {
         isTouching = false;
     });
     
-    // Button listeners
+    // Main menu buttons
+
+    //Insert Coin / Start Game
     document.getElementById('startButton').addEventListener('click', function() {
         document.querySelector('.hero').classList.add('hidden');
     });
     
+    //Retro Mode
     document.getElementById('retroButton').addEventListener('click', function() {
         this.classList.toggle('active');
         const tvImage = document.getElementById('tvImage');
         const scanlines = document.getElementById('scanlines');
         tvImage.classList.toggle('hidden');
         scanlines.classList.toggle('hidden');
+    });
+
+    // Modal functionality
+    const instructionsModal = document.getElementById('instructionsModal');
+    const pauseMenu = document.getElementById('pauseMenu');
+    const hero = document.querySelector('.hero');
+    
+    // Instructions button
+    document.getElementById('instructionsButton').addEventListener('click', function() {
+        instructionsModal.classList.remove('hidden');
+    });
+
+    // Close instructions via return button
+    document.querySelector('.return-button').addEventListener('click', function() {
+        instructionsModal.classList.add('hidden');
+    });
+
+    // Close instructions when clicking outside
+    instructionsModal.addEventListener('click', function(event) {
+        if (event.target === instructionsModal) {
+            instructionsModal.classList.add('hidden');
+        }
+    });
+
+    // Pause menu toggle with ESC key
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape' && hero.classList.contains('hidden')) {
+            pauseMenu.classList.toggle('hidden');
+        }
+    });
+
+    // Resume button
+    document.querySelector('.resume-button').addEventListener('click', function() {
+        pauseMenu.classList.add('hidden');
+    });
+
+    // Close pause menu when clicking outside
+    pauseMenu.addEventListener('click', function(event) {
+        if (event.target === pauseMenu) {
+            pauseMenu.classList.add('hidden');
+        }
     });
 
 });
@@ -119,35 +162,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
-//Visual Menu
-function handleMove(event) {
-    
-    const layers = document.querySelectorAll('.layer');
-    const speed = 0.05;
-    const maxScale = 1.5;
-
-    // Get the cursor or touch position
-    const clientX = event.touches ? event.touches[0].clientX : event.clientX;
-    const clientY = event.touches ? event.touches[0].clientY : event.clientY;
-
-    // Parallax layers
-    layers.forEach(layer => {
-        const rect = layer.getBoundingClientRect();
-        const layerCenterX = rect.left + rect.width / 2;
-        const layerCenterY = rect.top + rect.height / 2;
-        const distanceX = Math.abs(layerCenterX - clientX);
-        const distanceY = Math.abs(layerCenterY - clientY);
-        const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
-        const maxDistance = Math.sqrt(window.innerWidth * window.innerWidth + window.innerHeight * window.innerHeight);
-        const scale = 1 + (maxScale - 1) * (1 - distance / maxDistance);
-
-        const x = (window.innerWidth / 2 - clientX) * speed;
-        const y = (window.innerHeight / 2 - clientY) * speed;
-
-        layer.style.transition = 'transform 0.1s ease-out';
-        layer.style.transform = `translateX(${x}px) translateY(${y}px) scale(${scale})`;
-    });
-}
 
 //ASSET SPAWNING
 
@@ -278,4 +292,36 @@ function moveBullets() {
 //GAME END FUNCTIONS
 function gameOver() {
     alert('Game Over! The invaders have reached the bottom.');
+}
+
+//MENU FUNCTIONS
+
+//Visual Menu
+function handleMove(event) {
+    
+    const layers = document.querySelectorAll('.layer');
+    const speed = 0.05;
+    const maxScale = 1.5;
+
+    // Get the cursor or touch position
+    const clientX = event.touches ? event.touches[0].clientX : event.clientX;
+    const clientY = event.touches ? event.touches[0].clientY : event.clientY;
+
+    // Parallax layers
+    layers.forEach(layer => {
+        const rect = layer.getBoundingClientRect();
+        const layerCenterX = rect.left + rect.width / 2;
+        const layerCenterY = rect.top + rect.height / 2;
+        const distanceX = Math.abs(layerCenterX - clientX);
+        const distanceY = Math.abs(layerCenterY - clientY);
+        const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+        const maxDistance = Math.sqrt(window.innerWidth * window.innerWidth + window.innerHeight * window.innerHeight);
+        const scale = 1 + (maxScale - 1) * (1 - distance / maxDistance);
+
+        const x = (window.innerWidth / 2 - clientX) * speed;
+        const y = (window.innerHeight / 2 - clientY) * speed;
+
+        layer.style.transition = 'transform 0.1s ease-out';
+        layer.style.transform = `translateX(${x}px) translateY(${y}px) scale(${scale})`;
+    });
 }
