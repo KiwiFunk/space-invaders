@@ -346,14 +346,3 @@ body {
         left: calc(100% - 15%);
     }
 }
-
-@keyframes moveLayer4 {
-    from {
-        left: 70%;
-        top: 83%;
-    }
-    to {
-        left: 70%;
-        top: 83%;
-    }
-}
