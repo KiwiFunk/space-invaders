@@ -70,6 +70,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const instructionsButton = document.getElementById('instructionsButton');
     const instructionsModal = document.getElementById('instructionsModal');
     const returnButton = document.querySelector('.return-button');
+    const pauseMenu = document.getElementById('pauseMenu');
+    const resumeButton = document.querySelector('.resume-button');
+    const hero = document.querySelector('.hero');
 
     instructionsButton.addEventListener('click', function() {
         instructionsModal.style.display = 'block';
@@ -90,6 +93,40 @@ document.addEventListener('DOMContentLoaded', function() {
             instructionsModal.classList.remove('show');
             setTimeout(() => {
                 instructionsModal.style.display = 'none';
+            }, 500); // Wait for the fade-out transition to complete
+        }
+    });
+
+    // Pause menu functionality
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape' && hero.classList.contains('hidden')) {
+            if (pauseMenu.style.display === 'block') {
+                pauseMenu.classList.remove('show');
+                setTimeout(() => {
+                    pauseMenu.style.display = 'none';
+                }, 500); // Wait for the fade-out transition to complete
+            }
+            else {
+                pauseMenu.style.display = 'block';
+                requestAnimationFrame(() => {
+                    pauseMenu.classList.add('show');
+                });
+            }
+        }
+    });
+
+    resumeButton.addEventListener('click', function() {
+        pauseMenu.classList.remove('show');
+        setTimeout(() => {
+            pauseMenu.style.display = 'none';
+        }, 500); // Wait for the fade-out transition to complete
+    });
+
+    window.addEventListener('click', function(event) {
+        if (event.target === pauseMenu) {
+            pauseMenu.classList.remove('show');
+            setTimeout(() => {
+                pauseMenu.style.display = 'none';
             }, 500); // Wait for the fade-out transition to complete
         }
     });
