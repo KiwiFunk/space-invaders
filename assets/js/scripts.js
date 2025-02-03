@@ -66,6 +66,34 @@ document.addEventListener('DOMContentLoaded', function() {
         scanlines.classList.toggle('hidden');
     });
 
+    // Modal functionality
+    const instructionsButton = document.getElementById('instructionsButton');
+    const instructionsModal = document.getElementById('instructionsModal');
+    const returnButton = document.querySelector('.return-button');
+
+    instructionsButton.addEventListener('click', function() {
+        instructionsModal.style.display = 'block';
+        requestAnimationFrame(() => {
+            instructionsModal.classList.add('show');
+        });
+    });
+
+    returnButton.addEventListener('click', function() {
+        instructionsModal.classList.remove('show');
+        setTimeout(() => {
+            instructionsModal.style.display = 'none';
+        }, 500); // Wait for the fade-out transition to complete
+    });
+
+    window.addEventListener('click', function(event) {
+        if (event.target === instructionsModal) {
+            instructionsModal.classList.remove('show');
+            setTimeout(() => {
+                instructionsModal.style.display = 'none';
+            }, 500); // Wait for the fade-out transition to complete
+        }
+    });
+
 });
 
 
