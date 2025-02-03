@@ -287,6 +287,13 @@ function moveBullets() {
                     // Call getHit(). If invader was destroyed, remove from array.
                     const invaderDestroyed = invader.getHit(); 
                     if (invaderDestroyed) row.splice(col, 1);
+
+                    // Check if every invader in the array has been destroyed
+                    //Last modification to function. If any freezing occurs, check here
+                    if (enemyInvaders.every(row => row.length === 0)) {
+                        gameHasEnded = true;
+                        gameOver('player');
+                    }
                    
                     bullet.remove();
                     bulletHit = true;
