@@ -18,34 +18,10 @@ document.addEventListener('DOMContentLoaded', function() {
     let touchY = 0;
     let isTouching = false;
 
-    // Movement
-    function handleMove(e) {
-        const layers = document.querySelectorAll('.layer');
-        const speed = 0.05;
-        const maxScale = 1.5;
-    
-        // Get the cursor or touch position
-        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-
-        // Parallax layers
-        layers.forEach(layer => {
-            const rect = layer.getBoundingClientRect();
-            const layerCenterX = rect.left + rect.width / 2;
-            const layerCenterY = rect.top + rect.height / 2;
-            const distanceX = Math.abs(layerCenterX - clientX);
-            const distanceY = Math.abs(layerCenterY - clientY);
-            const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
-            const maxDistance = Math.sqrt(window.innerWidth * window.innerWidth + window.innerHeight * window.innerHeight);
-            const scale = 1 + (maxScale - 1) * (1 - distance / maxDistance);
-    
-            const x = (window.innerWidth / 2 - clientX) * speed;
-            const y = (window.innerHeight / 2 - clientY) * speed;
-    
-            layer.style.transition = 'transform 0.1s ease-out';
-            layer.style.transform = `translateX(${x}px) translateY(${y}px) scale(${scale})`;
-        });
-    }
+    // Handle the parallax effect on mousemove
+    document.addEventListener('mousemove', function(e) {
+        handleMove(e);
+    });
     
     // Update touch position
     function updateTouchPosition() {
@@ -55,7 +31,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    document.addEventListener('mousemove', handleMove);
     document.addEventListener('touchmove', function(e) {
         touchX = e.touches[0].clientX;
         touchY = e.touches[0].clientY;
@@ -120,6 +95,37 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
+//Visual Menu
+function handleMove(event) {
+
+    console.log('Mouse move detected:', e.clientX, e.clientY); // Debug line
+    
+    const layers = document.querySelectorAll('.layer');
+    const speed = 0.05;
+    const maxScale = 1.5;
+
+    // Get the cursor or touch position
+    const clientX = event.touches ? event.touches[0].clientX : event.clientX;
+    const clientY = event.touches ? event.touches[0].clientY : event.clientY;
+
+    // Parallax layers
+    layers.forEach(layer => {
+        const rect = layer.getBoundingClientRect();
+        const layerCenterX = rect.left + rect.width / 2;
+        const layerCenterY = rect.top + rect.height / 2;
+        const distanceX = Math.abs(layerCenterX - clientX);
+        const distanceY = Math.abs(layerCenterY - clientY);
+        const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+        const maxDistance = Math.sqrt(window.innerWidth * window.innerWidth + window.innerHeight * window.innerHeight);
+        const scale = 1 + (maxScale - 1) * (1 - distance / maxDistance);
+
+        const x = (window.innerWidth / 2 - clientX) * speed;
+        const y = (window.innerHeight / 2 - clientY) * speed;
+
+        layer.style.transition = 'transform 0.1s ease-out';
+        layer.style.transform = `translateX(${x}px) translateY(${y}px) scale(${scale})`;
+    });
+}
 
 //Game Functions
 
