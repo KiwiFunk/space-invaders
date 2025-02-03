@@ -1,0 +1,41 @@
+body {
+    background-color: rgb(31, 31, 31);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+}
+
+/* Sprites */
+.invaderBasic {
+    background-color: rgb(170, 255, 42);
+    width: 50px; /* Adjusted for better game scale */
+    height: 50px; 
+    position: absolute;
+}
+
+.player {
+    background-color: tomato;
+    width: 50px; 
+    height: 50px;
+    position: absolute;
+}
+
+.bullet {
+    background-color: white;
+    width: 5px;
+    height: 35px;
+    position: absolute;
+}
+
+/* Game Area */
+#gameArea {
+    position: relative;
+    width: 80%;
+    height: 90%;
+    background-color: black;
+}
