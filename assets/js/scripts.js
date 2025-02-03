@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
 
-            if (e.key === ' ') {
+            if (e.key === ' ' && !e.repeat) {
                 const bullet = player.shoot();
                 activeBullets.push(bullet);
             }
