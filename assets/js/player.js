@@ -1,9 +1,8 @@
 import Bullet from './bullet.js';
 
-class Invader {
-    constructor(baseClass, hp, xpos, ypos) {
-        this.baseClass = baseClass;
-        this.hp = hp;
+class Player {
+    constructor(lives, xpos, ypos) {
+        this.lives = lives;
         this.xpos = xpos;
         this.ypos = ypos;
     }
@@ -11,11 +10,21 @@ class Invader {
     spawn() {
         const gameArea = document.getElementById('gameArea');
         this.element = document.createElement('div');
-        this.element.className = this.baseClass;
+        this.element.className = 'player';
         this.element.style.position = 'absolute';
         this.element.style.left = this.xpos + 'px';
         this.element.style.top = this.ypos + 'px';
         gameArea.appendChild(this.element);
+    }
+
+    resetPlayer() {
+        //Reset player position and lives
+    }   
+
+    shoot() {
+        const bullet = new Bullet(this.xpos + this.element.offsetWidth / 2, this.ypos, -1, 5);
+        bullet.spawn();
+        return bullet;
     }
 
     move(dx, dy) {
@@ -26,17 +35,8 @@ class Invader {
     }
 
     getHit() {
-        this.hp -= 100;
-        if (this.hp === 0) {
-            this.element.remove();
-        }
-    }
-
-    shoot() {
-        const bullet = new Bullet(this.xpos + this.element.offsetWidth / 2, this.ypos + this.element.offsetHeight, 1, 5);
-        bullet.spawn();
-        return bullet;
+        //Reduce player lives
     }
 }
 
-export default Invader;
+export default Player;

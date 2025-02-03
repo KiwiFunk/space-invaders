@@ -2,10 +2,11 @@
 import Player from './player.js';
 import Invader from './invaders.js';
 
-//Global Variables
+//Global Instances
 //Object Instances
 let player;
 let enemyInvaders = [];
+let activeBullets = [];
 
 const rowLength = 4;
 const invaderWidth = 50;    // Width of each invader
@@ -113,6 +114,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
     });   
+
+    setInterval(moveBullets, 20); // Move bullets at set intervals
 
 });
 
@@ -230,6 +233,46 @@ function moveInvaders() {
             });
         });
     }
+}
+
+function moveBullets() {
+    // Move each bullet and remove those that are out of bounds
+    activeBullets = activeBullets.filter(bullet => {
+        const isActive = bullet.move();
+        if (!isActive) {
+            bullet.remove();
+        }
+        return isActive;
+    });
+
+    // Check for collisions with invaders
+    activeBullets.forEach(bullet => {
+        enemyInvaders.forEach((row, rowIndex) => {
+            row.forEach((invader, colIndex) => {
+                // Simple collision detection
+                if (bullet.xpos < invader.xpos + invaderWidth &&
+                    bullet.xpos + 5 > invader.xpos &&
+                    bullet.ypos < invader.ypos + invaderWidth &&
+                    bullet.ypos + 35 > invader.ypos) {
+                    
+                    invader.getHit();
+                    bullet.remove();
+                    // Remove bullet from active bullets
+                    const bulletIndex = activeBullets.indexOf(bullet);
+                    if (bulletIndex > -1) {
+                        activeBullets.splice(bulletIndex, 1);
+                    }
+                    // Remove invader from array if destroyed
+                    if (invader.hp <= 0) {
+                        enemyInvaders[rowIndex][colIndex] = null;
+                    }
+                }
+            });
+        });
+    });
+
+    // Clean up null values from invaders array
+    enemyInvaders = enemyInvaders.map(row => row.filter(invader => invader !== null));
 }
 
 //GAME END FUNCTIONS

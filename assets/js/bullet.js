@@ -24,6 +24,7 @@ class Bullet {
         return this.ypos > 0 && this.ypos < window.innerHeight;
     }
 
+
     remove() {
         this.element.remove();
     }

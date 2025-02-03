@@ -26,11 +26,16 @@ class Invader {
     }
 
     getHit() {
-        //Reduce invader hp and check if dead
+        this.hp -= 100;
+        if (this.hp === 0) {
+            this.element.remove();
+        }
     }
 
     shoot() {
-        // Fire bullet
+        const bullet = new Bullet(this.xpos + this.element.offsetWidth / 2, this.ypos + this.element.offsetHeight, 1, 5);
+        bullet.spawn();
+        return bullet;
     }
 }
 
