@@ -38,6 +38,8 @@ body {
     font-size: 20px;
     cursor: pointer;
     z-index: 10;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 500;
 }
 
 #retroButton {
