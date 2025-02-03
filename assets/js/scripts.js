@@ -1,6 +1,6 @@
 // Import Classes
-import Player from './player.js';
-import Invader from './invaders.js';
+//import Player from './player.js';
+//import Invader from './invaders.js';
 
 //Global Variables
 let player;
@@ -98,8 +98,8 @@ document.addEventListener('DOMContentLoaded', function() {
 //Visual Menu
 function handleMove(event) {
 
-    console.log('Mouse move detected:', e.clientX, e.clientY); // Debug line
-    
+    console.log('Mouse move detected:', event.clientX, event.clientY); // Debug line
+
     const layers = document.querySelectorAll('.layer');
     const speed = 0.05;
     const maxScale = 1.5;
