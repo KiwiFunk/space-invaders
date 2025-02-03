@@ -19,7 +19,10 @@ class Invader {
     }
 
     move(dx, dy) {
-        //Update invader position
+        this.xpos += dx;
+        this.ypos += dy;
+        this.element.style.left = this.xpos + 'px';
+        this.element.style.top = this.ypos + 'px';
     }
 
     getHit() {

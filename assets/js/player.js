@@ -24,7 +24,10 @@ class Player {
     }
 
     move(dx, dy) {
-        //Move Player
+        this.xpos += dx;
+        this.ypos += dy;
+        this.element.style.left = this.xpos + 'px';
+        this.element.style.top = this.ypos + 'px';
     }
 
     getHit() {
