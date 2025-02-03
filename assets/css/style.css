@@ -154,7 +154,7 @@ body {
 
 /* Game Area */
 #gameArea {
-    position: relative;
+    position: absolute;
     width: 80%;
     height: 90%;
     background-color: black;
