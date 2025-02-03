@@ -21,9 +21,10 @@ class Bullet {
         this.element.style.top = this.ypos + 'px';
         
         // Return false if bullet is out of bounds
-        return this.ypos > 0 && this.ypos < window.innerHeight;
+        const gameArea = document.getElementById('gameArea');
+        const gameAreaHeight = gameArea.clientHeight;
+        return this.ypos > 0 && this.ypos < gameAreaHeight;
     }
-
 
     remove() {
         this.element.remove();
