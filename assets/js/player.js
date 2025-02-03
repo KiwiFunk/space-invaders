@@ -36,7 +36,7 @@ class Player {
     }
 
     getHit() {
-        this.lives -= 1;
+        this.lives --;
         if (this.lives === 0) {
             this.despawn();
             return true;

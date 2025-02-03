@@ -228,7 +228,7 @@ function moveInvaders() {
             // Check if any invader has reached the bottom
             if (invader.ypos + invaderWidth >= player.ypos - 50) {
                 gameHasEnded = true;
-                gameOver();
+                gameOver('invaders');
             }
         });
     });
@@ -264,7 +264,11 @@ function moveBullets() {
 
         // Check if enemy bullet hits player
         if (bullet.direction === 1 && checkCollision(bullet, player)) { // Enemy bullet
-            player.getHit();
+            const playerHit = player.getHit();
+            if (playerHit) {
+                gameHasEnded = true;
+                gameOver('invaders');
+            }
             bullet.remove();
             return false;
         }
@@ -353,8 +357,18 @@ function handleInvaderShooting() {
 
 
 //GAME END FUNCTIONS
-function gameOver() {
-    alert('Game Over! The invaders have reached the bottom.');
+function gameOver(winner) {
+    //Clear Game Area on end state
+    gameArea.innerHTML = '';
+    
+    if (winner === 'player') {
+        alert('Congratulations! You have defeated the invaders!');
+    }
+    //if winner = player
+    if (winner === 'invaders') {
+        alert('Game Over! The invaders have reached the bottom.');
+    }
+    
 }
 
 //MENU FUNCTIONS
