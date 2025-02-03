@@ -10,6 +10,16 @@ let gameStarted = false;
 let gameEnded = false;
 
 
+//PUT IT ALL IN HERE
+document.addEventListener('DOMContentLoaded', function() {
+
+
+
+
+
+});
+
+
 //Game Loop
 document.addEventListener('DOMContentLoaded', function() {
 
