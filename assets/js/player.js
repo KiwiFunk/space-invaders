@@ -14,6 +14,7 @@ class Player {
         this.element.style.position = 'absolute';
         this.element.style.left = this.xpos + 'px';
         this.element.style.top = this.ypos + 'px';
+        this.lives = this.lives;
         gameArea.appendChild(this.element);
     }
 
@@ -35,7 +36,16 @@ class Player {
     }
 
     getHit() {
-        //Reduce player lives
+        this.lives -= 1;
+        if (this.lives === 0) {
+            this.despawn();
+            return true;
+        }
+        return false;
+    }
+
+    despawn() {
+        this.element.remove();
     }
 }
 

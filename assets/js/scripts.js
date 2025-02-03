@@ -10,7 +10,7 @@ let activeBullets = [];
 const rowLength = 4;
 const invaderWidth = 50;    // Width of each invader
 const maxColumns = 10;      // Maximum number of columns
-const moveInterval = 200;   // Time in ms between each move
+const moveInterval = 300;   // Time in ms between each move
 const moveDistance = 5;     // Distance to move in each step
 let direction = 1;          // 1 for right, -1 for left
 
@@ -320,30 +320,18 @@ function checkCollision(bullet, target) {
 }
 
 function frontInvaders() {
-    // Reset all invaders' canShoot property
+    // Reset all invaders canShoot property
     enemyInvaders.forEach(column => {
         column.forEach(invader => {
-            if (invader) {
-                invader.canShoot = false;
-            }
+            invader.canShoot = false;
         });
     });
 
-    // Set canShoot for front invaders
+    //Find the highest index for each column, set canShoot to true
     enemyInvaders.forEach(column => {
-        let frontInvader = null;
-        
-        // Find the front invader in this column
-        for (let i = column.length - 1; i >= 0; i--) {
-            if (column[i]) {
-                frontInvader = column[i];
-                break;
-            }
-        }
-        
-        // Enable shooting for front invader
-        if (frontInvader) {
-            frontInvader.canShoot = true;
+        if (column.length > 0) {
+            let index = column.length - 1;      //Arrays are zero indexed
+            column[index].canShoot = true; 
         }
     });
 }
