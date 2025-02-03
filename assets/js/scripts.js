@@ -8,7 +8,6 @@ let enemyInvaders = [];
 let activeBullets = [];
 
 const moveInterval = 300;   // Time in ms between each move
-const moveDistance = 5;     // Distance to move in each step
 let direction = 1;          // 1 for right, -1 for left
 
 //Game State Bools
@@ -127,20 +126,21 @@ document.addEventListener('DOMContentLoaded', function() {
         // Player spawn
         spawnPlayer();
 
+        //Start Game
+        if(!gameStarted) {
+            setInterval(moveInvaders, moveInterval); // Move invaders at set intervals
+            gameStarted = true;
+        }
+
         //Start Enemy Attacks
         setInterval(() => {
             frontInvaders();
             handleInvaderShooting();
         }, 1000); // Check every second
 
-        //Begin game loop on player input
+        //Get Player Inputs
         document.addEventListener('keydown', function(e) {
-            if(!gameStarted) {
-                setInterval(moveInvaders, moveInterval); // Move invaders at set intervals
-                gameStarted = true;
-            }
-
-            //Player Inputs
+            
             if (e.key === 'ArrowLeft' || e.key === 'a') {
                 if (player.xpos > 0) {  // Ensure player doesn't move out of bounds
                     player.move(-10, 0);  // Move left
@@ -210,7 +210,7 @@ function initInvaders(gameArea, rowLength = 4, maxColumns = 12) {
 }
 
 //MOVE FUNCTIONS
-function moveInvaders() {
+function moveInvaders(moveDistance = 5) {
     if (gameHasEnded) return;
 
     const gameArea = document.getElementById('gameArea');
