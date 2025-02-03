@@ -4,6 +4,15 @@
 
 //Global Variables
 let player;
+let enemyInvaders = [];
+
+const rowLength = 4;
+const invaderWidth = 50;    // Width of each invader
+const gap = 35;             // Gap between invaders
+const maxColumns = 10;      // Maximum number of columns
+const moveInterval = 300;   // Time in ms between each move
+const moveDistance = 5;     // Distance to move in each step
+let direction = 1;          // 1 for right, -1 for left
 
 //Game State bools
 let gameStarted = false;
@@ -57,17 +66,24 @@ document.addEventListener('DOMContentLoaded', function() {
         scanlines.classList.toggle('hidden');
     });
 
-
 });
 
 
 //Game Loop
 document.addEventListener('DOMContentLoaded', function() {
 
+    //Get playable area
+    const gameArea = document.getElementById('gameArea');
+
+    //Invader Initialization
+    initInvaders(gameArea);
+    window.addEventListener('resize', initInvaders); // Recalculate on window resize
+
+
+
     //Init game loop on player input
     document.addEventListener('keydown', function(e) {
-        //Get playable area
-        const gameArea = document.getElementById('gameArea');
+        
 
         if(!gameStarted) {
             //Start moving invaders
@@ -97,9 +113,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 //Visual Menu
 function handleMove(event) {
-
-    console.log('Mouse move detected:', event.clientX, event.clientY); // Debug line
-
+    
     const layers = document.querySelectorAll('.layer');
     const speed = 0.05;
     const maxScale = 1.5;
@@ -128,6 +142,24 @@ function handleMove(event) {
 }
 
 //Game Functions
+
+function initInvaders(gameArea) {
+    gameArea.innerHTML = ''; // Clear existing invaders IF THINGS ARENT SPAWNING ITS PROLLY THIS
+    const gameAreaWidth = gameArea.clientWidth;
+
+    const columnLength = Math.min(Math.floor(gameAreaWidth / (invaderWidth + gap)), maxColumns); // Limit to maxColumns
+    const offsetX = (gameAreaWidth - (columnLength * (invaderWidth + gap) - gap)) / 2; // Center the invaders
+
+    for (let j = 0; j < columnLength; j++) {
+        enemyInvaders[j] = [];
+        for (let i = 0; i < rowLength; i++) {
+            const xpos = offsetX + (j * (invaderWidth + gap));
+            const ypos = i * (invaderWidth + gap / 1.5); // Adjust vertical spacing as needed
+            enemyInvaders[j][i] = new Invader('invaderBasic', 100, xpos, ypos);
+            enemyInvaders[j][i].spawn();
+        }
+    }
+}
 
 //spawn player
 
