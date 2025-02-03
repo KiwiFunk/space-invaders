@@ -7,9 +7,6 @@ let player;
 let enemyInvaders = [];
 let activeBullets = [];
 
-const rowLength = 4;
-const invaderWidth = 50;    // Width of each invader
-const maxColumns = 10;      // Maximum number of columns
 const moveInterval = 300;   // Time in ms between each move
 const moveDistance = 5;     // Distance to move in each step
 let direction = 1;          // 1 for right, -1 for left
@@ -191,10 +188,11 @@ function spawnPlayer() {
 }
 
 
-function initInvaders(gameArea) {
+function initInvaders(gameArea, rowLength = 4, maxColumns = 12) {
     // Clear existing invaders IF THINGS ARENT SPAWNING ITS PROLLY THIS
     gameArea.innerHTML = '';
     const gameAreaWidth = gameArea.clientWidth;
+    const invaderWidth = 50;    // Width of each invader
     const gap = 35;             // Gap between each invaders
 
     const columnLength = Math.min(Math.floor(gameAreaWidth / (invaderWidth + gap)), maxColumns);        // Limit to maxColumns
@@ -217,6 +215,7 @@ function moveInvaders() {
 
     const gameArea = document.getElementById('gameArea');
     const gameAreaWidth = gameArea.clientWidth;
+    const invaderWidth = enemyInvaders[0][0].element.offsetWidth;
 
     let edgeReached = false;
     // Check if any invader has reached the edge of the game area
