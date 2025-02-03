@@ -253,6 +253,8 @@ function moveInvaders() {
     }
 }
 
+//ATTACK FUNCTIONS
+
 function moveBullets() {
     // Move each bullet and remove those that are out of bounds
     activeBullets = activeBullets.filter(bullet => {
@@ -262,16 +264,10 @@ function moveBullets() {
         }
 
         // Check if enemy bullet hits player
-        if (bullet.direction === 1) { // Enemy bullet
-            if (bullet.xpos < player.xpos + player.element.offsetWidth &&
-                bullet.xpos + 5 > player.xpos &&
-                bullet.ypos < player.ypos + player.element.offsetHeight &&
-                bullet.ypos + 35 > player.ypos) {
-                
-                player.getHit();
-                bullet.remove();
-                return false;
-            }
+        if (bullet.direction === 1 && checkCollision(bullet, player)) { // Enemy bullet
+            player.getHit();
+            bullet.remove();
+            return false;
         }
         
         return isActive;
@@ -281,12 +277,7 @@ function moveBullets() {
     activeBullets.forEach(bullet => {
         enemyInvaders.forEach((row, rowIndex) => {
             row.forEach((invader, colIndex) => {
-                // Simple collision detection
-                if (bullet.xpos < invader.xpos + invaderWidth &&
-                    bullet.xpos + 5 > invader.xpos &&
-                    bullet.ypos < invader.ypos + invaderWidth &&
-                    bullet.ypos + 35 > invader.ypos) {
-                    
+                if (invader && checkCollision(bullet, invader)) {
                     invader.getHit();
                     bullet.remove();
                     // Remove bullet from active bullets
@@ -307,7 +298,30 @@ function moveBullets() {
     enemyInvaders = enemyInvaders.map(row => row.filter(invader => invader !== null));
 }
 
-//INVADER ATTACKS
+function checkCollision(bullet, target) {
+    // Get bounding boxes for bullet and target 
+    const errorMargin = 1; // Increase the hitbox of the target
+
+    const bulletBB = {
+        left: bullet.xpos,
+        right: bullet.xpos + bullet.element.offsetWidth,
+        top: bullet.ypos,
+        bottom: bullet.ypos + bullet.element.offsetHeight
+    };
+
+    const targetBB = {
+        left: target.xpos - errorMargin,
+        right: target.xpos + target.element.offsetWidth + errorMargin,
+        top: target.ypos - errorMargin,
+        bottom: target.ypos + target.element.offsetHeight + errorMargin
+    };
+
+    //Return bool if collision is detected
+    return !(bulletBB.right < targetBB.left ||
+             bulletBB.left > targetBB.right ||
+             bulletBB.bottom < targetBB.top ||
+             bulletBB.top > targetBB.bottom);
+}
 
 function frontInvaders() {
     // Reset all invaders' canShoot property
@@ -343,7 +357,7 @@ function handleInvaderShooting() {
     
     enemyInvaders.forEach(column => {
         column.forEach(invader => {
-            if (invader && invader.canShoot && Math.random() < 0.3) { // 30% chance to shoot
+            if (invader && invader.canShoot && Math.random() < 0.2) { // 20% chance to shoot
                 const bullet = invader.shoot();
                 if (bullet) {
                     activeBullets.push(bullet);
