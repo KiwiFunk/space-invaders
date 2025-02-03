@@ -27,13 +27,6 @@ class Invader {
         this.element.style.top = this.ypos + 'px';
     }
 
-    getHit() {
-        this.hp -= 100;
-        if (this.hp === 0) {
-            this.element.remove();
-        }
-    }
-
     shoot() {
         if (this.canShoot) {
             const bullet = new Bullet(this.xpos + this.element.offsetWidth / 2, this.ypos + this.element.offsetHeight, 1, 5);
@@ -41,6 +34,21 @@ class Invader {
             return bullet;
         }
     }
+
+    getHit() {
+        // Returns bool
+        this.hp -= 100;
+        if (this.hp === 0) {
+            this.despawn();
+            return true; 
+        }
+        return false;
+    }
+
+    despawn() {
+        this.element.remove();
+    }
+
 }
 
 export default Invader;

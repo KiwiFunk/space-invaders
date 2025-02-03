@@ -10,7 +10,7 @@ let activeBullets = [];
 const rowLength = 4;
 const invaderWidth = 50;    // Width of each invader
 const maxColumns = 10;      // Maximum number of columns
-const moveInterval = 300;   // Time in ms between each move
+const moveInterval = 200;   // Time in ms between each move
 const moveDistance = 5;     // Distance to move in each step
 let direction = 1;          // 1 for right, -1 for left
 
@@ -269,33 +269,29 @@ function moveBullets() {
             bullet.remove();
             return false;
         }
-        
+
         return isActive;
     });
 
     // Check for collisions with invaders
-    activeBullets.forEach(bullet => {
+    activeBullets = activeBullets.filter(bullet => {
+        let bulletHit = false;
+
         enemyInvaders.forEach((row, rowIndex) => {
-            row.forEach((invader, colIndex) => {
-                if (invader && checkCollision(bullet, invader)) {
-                    invader.getHit();
+            row.forEach((invader, col) => {
+                if (invader && checkCollision(bullet, invader)) { 
+
+                    // Call getHit(). If invader was destroyed, remove from array.
+                    const invaderDestroyed = invader.getHit(); 
+                    if (invaderDestroyed) row.splice(col, 1);
+                   
                     bullet.remove();
-                    // Remove bullet from active bullets
-                    const bulletIndex = activeBullets.indexOf(bullet);
-                    if (bulletIndex > -1) {
-                        activeBullets.splice(bulletIndex, 1);
-                    }
-                    // Remove invader from array if destroyed
-                    if (invader.hp <= 0) {
-                        enemyInvaders[rowIndex][colIndex] = null;
-                    }
+                    bulletHit = true;
                 }
             });
         });
+        return !bulletHit;
     });
-
-    // Clean up null values from invaders array
-    enemyInvaders = enemyInvaders.map(row => row.filter(invader => invader !== null));
 }
 
 function checkCollision(bullet, target) {
@@ -357,7 +353,7 @@ function handleInvaderShooting() {
     
     enemyInvaders.forEach(column => {
         column.forEach(invader => {
-            if (invader && invader.canShoot && Math.random() < 0.2) { // 20% chance to shoot
+            if (invader && invader.canShoot && Math.random() < 0.15) { // 15% chance to shoot
                 const bullet = invader.shoot();
                 if (bullet) {
                     activeBullets.push(bullet);
