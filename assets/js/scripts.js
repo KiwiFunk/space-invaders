@@ -191,7 +191,6 @@ function initInvaders(gameArea) {
 //calculate front facing invaders (for enemy fire logic)
 
 //MOVE FUNCTIONS
-
 function moveInvaders() {
     if (gameHasEnded) return;
 
