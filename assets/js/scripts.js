@@ -76,11 +76,18 @@ document.addEventListener('DOMContentLoaded', function() {
     const gameArea = document.getElementById('gameArea');
 
     //Invader Initialization
-    initInvaders(gameArea);
-    window.addEventListener('resize', initInvaders); // Recalculate on window resize
+
+    document.getElementById('startButton').addEventListener('click', function() {
+        initInvaders(gameArea);
+        window.addEventListener('resize', function() {
+            initInvaders(gameArea); // Recalculate on window resize
+        });
+    });
 
 
 
+
+    
     //Init game loop on player input
     document.addEventListener('keydown', function(e) {
         
