@@ -1,6 +1,6 @@
 // Import Classes
-//import Player from './player.js';
-//import Invader from './invaders.js';
+import Player from './player.js';
+import Invader from './invaders.js';
 
 //Global Variables
 let player;
