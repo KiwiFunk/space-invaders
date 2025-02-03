@@ -130,6 +130,12 @@ document.addEventListener('DOMContentLoaded', function() {
         // Player spawn
         spawnPlayer();
 
+        //Start Enemy Attacks
+        setInterval(() => {
+            frontInvaders();
+            handleInvaderShooting();
+        }, 1000); // Check every second
+
         //Begin game loop on player input
         document.addEventListener('keydown', function(e) {
             if(!gameStarted) {
@@ -205,8 +211,6 @@ function initInvaders(gameArea) {
     }
 }
 
-//calculate front facing invaders (for enemy fire logic)
-
 //MOVE FUNCTIONS
 function moveInvaders() {
     if (gameHasEnded) return;
@@ -256,6 +260,20 @@ function moveBullets() {
         if (!isActive) {
             bullet.remove();
         }
+
+        // Check if enemy bullet hits player
+        if (bullet.direction === 1) { // Enemy bullet
+            if (bullet.xpos < player.xpos + player.element.offsetWidth &&
+                bullet.xpos + 5 > player.xpos &&
+                bullet.ypos < player.ypos + player.element.offsetHeight &&
+                bullet.ypos + 35 > player.ypos) {
+                
+                player.getHit();
+                bullet.remove();
+                return false;
+            }
+        }
+        
         return isActive;
     });
 
@@ -288,6 +306,54 @@ function moveBullets() {
     // Clean up null values from invaders array
     enemyInvaders = enemyInvaders.map(row => row.filter(invader => invader !== null));
 }
+
+//INVADER ATTACKS
+
+function frontInvaders() {
+    // Reset all invaders' canShoot property
+    enemyInvaders.forEach(column => {
+        column.forEach(invader => {
+            if (invader) {
+                invader.canShoot = false;
+            }
+        });
+    });
+
+    // Set canShoot for front invaders
+    enemyInvaders.forEach(column => {
+        let frontInvader = null;
+        
+        // Find the front invader in this column
+        for (let i = column.length - 1; i >= 0; i--) {
+            if (column[i]) {
+                frontInvader = column[i];
+                break;
+            }
+        }
+        
+        // Enable shooting for front invader
+        if (frontInvader) {
+            frontInvader.canShoot = true;
+        }
+    });
+}
+
+function handleInvaderShooting() {
+    if (gameHasEnded) return;
+    
+    enemyInvaders.forEach(column => {
+        column.forEach(invader => {
+            if (invader && invader.canShoot && Math.random() < 0.3) { // 30% chance to shoot
+                const bullet = invader.shoot();
+                if (bullet) {
+                    activeBullets.push(bullet);
+                }
+            }
+        });
+    });
+}
+
+
 
 //GAME END FUNCTIONS
 function gameOver() {

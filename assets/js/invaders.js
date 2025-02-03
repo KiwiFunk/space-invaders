@@ -1,15 +1,17 @@
 import Bullet from './bullet.js';
 
 class Invader {
-    constructor(baseClass, hp, xpos, ypos) {
+    constructor(baseClass, hp, xpos, ypos, canShoot) {
         this.baseClass = baseClass;
         this.hp = hp;
         this.xpos = xpos;
         this.ypos = ypos;
+        this.canShoot = canShoot;
     }
 
     spawn() {
         const gameArea = document.getElementById('gameArea');
+        this.canShoot = false;
         this.element = document.createElement('div');
         this.element.className = this.baseClass;
         this.element.style.position = 'absolute';
@@ -33,9 +35,11 @@ class Invader {
     }
 
     shoot() {
-        const bullet = new Bullet(this.xpos + this.element.offsetWidth / 2, this.ypos + this.element.offsetHeight, 1, 5);
-        bullet.spawn();
-        return bullet;
+        if (this.canShoot) {
+            const bullet = new Bullet(this.xpos + this.element.offsetWidth / 2, this.ypos + this.element.offsetHeight, 1, 5);
+            bullet.spawn();
+            return bullet;
+        }
     }
 }
 
