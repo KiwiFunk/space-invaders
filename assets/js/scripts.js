@@ -3,6 +3,7 @@ import Player from './player.js';
 import Invader from './invaders.js';
 
 //Global Variables
+//Object Instances
 let player;
 let enemyInvaders = [];
 
@@ -13,12 +14,11 @@ const moveInterval = 300;   // Time in ms between each move
 const moveDistance = 5;     // Distance to move in each step
 let direction = 1;          // 1 for right, -1 for left
 
-//Game State bools
+//Game State Bools
 let gameStarted = false;
-let gameEnded = false;
+let gameHasEnded = false;
 
-
-//PUT IT ALL IN HERE
+//Menu Functions
 document.addEventListener('DOMContentLoaded', function() {
     
     // Touch position
@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
         //Begin game loop on player input
         document.addEventListener('keydown', function(e) {
             if(!gameStarted) {
-                //Start moving invaders
+                setInterval(moveInvaders, moveInterval); // Move invaders at set intervals
                 gameStarted = true;
             }
 
@@ -146,7 +146,7 @@ function handleMove(event) {
     });
 }
 
-//Game Functions
+//ASSET SPAWNING
 
 function spawnPlayer() {
     const gameArea = document.getElementById('gameArea');
@@ -188,12 +188,50 @@ function initInvaders(gameArea) {
     }
 }
 
-//spawn player
-
-//spawn invaders into an array 
-
 //calculate front facing invaders (for enemy fire logic)
 
 //MOVE FUNCTIONS
+
+function moveInvaders() {
+    if (gameHasEnded) return;
+
+    const gameArea = document.getElementById('gameArea');
+    const gameAreaWidth = gameArea.clientWidth;
+
+    let edgeReached = false;
+    // Check if any invader has reached the edge of the game area
+    enemyInvaders.forEach(row => {
+        row.forEach(invader => {
+            if ((invader.xpos + invaderWidth >= gameAreaWidth && direction > 0) ||
+                (invader.xpos <= 0 && direction < 0)) {
+                edgeReached = true;
+            }
+            // Check if any invader has reached the bottom
+            if (invader.ypos + invaderWidth >= player.ypos - 50) {
+                gameHasEnded = true;
+                gameOver();
+            }
+        });
+    });
+
+    if (edgeReached) {
+        // Move all invaders down and change direction
+        enemyInvaders.forEach(row => {
+            row.forEach(invader => {
+                //Alter the vertical move distance as needed
+                invader.move(0, 50);
+            });
+        });
+        direction *= -1; // Change direction
+    } else {
+        // Move all invaders horizontally
+        enemyInvaders.forEach(row => {
+            row.forEach(invader => {
+                invader.move(moveDistance * direction, 0);
+            });
+        });
+    }
+}
+
 
 //GAME END FUNCTIONS
