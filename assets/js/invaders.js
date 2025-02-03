@@ -9,7 +9,13 @@ class Invader {
     }
 
     spawn() {
-        //Spawn object instance
+        const gameArea = document.getElementById('gameArea');
+        this.element = document.createElement('div');
+        this.element.className = this.baseClass;
+        this.element.style.position = 'absolute';
+        this.element.style.left = this.xpos + 'px';
+        this.element.style.top = this.ypos + 'px';
+        gameArea.appendChild(this.element);
     }
 
     move(dx, dy) {

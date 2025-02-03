@@ -6,7 +6,13 @@ class Player {
     }
 
     spawn() {
-        //Spawn player on screen
+        const gameArea = document.getElementById('gameArea');
+        this.element = document.createElement('div');
+        this.element.className = 'player';
+        this.element.style.position = 'absolute';
+        this.element.style.left = this.xpos + 'px';
+        this.element.style.top = this.ypos + 'px';
+        gameArea.appendChild(this.element);
     }
 
     resetPlayer() {
