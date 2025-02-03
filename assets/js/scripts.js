@@ -8,7 +8,6 @@ let enemyInvaders = [];
 
 const rowLength = 4;
 const invaderWidth = 50;    // Width of each invader
-const gap = 35;             // Gap between invaders
 const maxColumns = 10;      // Maximum number of columns
 const moveInterval = 300;   // Time in ms between each move
 const moveDistance = 5;     // Distance to move in each step
@@ -75,46 +74,45 @@ document.addEventListener('DOMContentLoaded', function() {
     //Get playable area
     const gameArea = document.getElementById('gameArea');
 
-    //Invader Initialization
-
+    //Start game on button click
     document.getElementById('startButton').addEventListener('click', function() {
+
+        //Init invaders
         initInvaders(gameArea);
         window.addEventListener('resize', function() {
             initInvaders(gameArea); // Recalculate on window resize
         });
-    });
 
+        // Player spawn
+        spawnPlayer();
 
-
-
-    
-    //Init game loop on player input
-    document.addEventListener('keydown', function(e) {
-        
-
-        if(!gameStarted) {
-            //Start moving invaders
-            gameStarted = true;
-        }
-
-        //Player Inputs
-        if (e.key === 'ArrowLeft' || e.key === 'a') {
-            if (player.xpos > 0) {  // Ensure player doesn't move out of bounds
-                player.move(-10, 0);  // Move left
+        //Begin game loop on player input
+        document.addEventListener('keydown', function(e) {
+            if(!gameStarted) {
+                //Start moving invaders
+                gameStarted = true;
             }
-        }
 
-        if (e.key === 'ArrowRight' || e.key === 'd') {
-            if (player.xpos < gameArea.clientWidth - player.element.offsetWidth) {  // Ensure player stays within bounds
-                player.move(10, 0);  // Move right
+            //Player Inputs
+            if (e.key === 'ArrowLeft' || e.key === 'a') {
+                if (player.xpos > 0) {  // Ensure player doesn't move out of bounds
+                    player.move(-10, 0);  // Move left
+                }
             }
-        }
 
-        if (e.key === ' ') {
-            //Fire player bullet
-        }
+            if (e.key === 'ArrowRight' || e.key === 'd') {
+                if (player.xpos < gameArea.clientWidth - player.element.offsetWidth) {  // Ensure player stays within bounds
+                    player.move(10, 0);  // Move right
+                }
+            }
 
-    });
+            if (e.key === ' ') {
+                const bullet = player.shoot();
+                activeBullets.push(bullet);
+            }
+        });
+
+    });   
 
 });
 
@@ -150,9 +148,31 @@ function handleMove(event) {
 
 //Game Functions
 
+function spawnPlayer() {
+    const gameArea = document.getElementById('gameArea');
+
+    // Get player width and height (using a temporary element for measurement)
+    const tempPlayer = document.createElement('div');
+    tempPlayer.classList.add('player');
+    gameArea.appendChild(tempPlayer);
+    const playerWidth = tempPlayer.offsetWidth;
+    const playerHeight = tempPlayer.offsetHeight;
+    gameArea.removeChild(tempPlayer);
+
+    const xpos = gameArea.clientWidth / 2 - playerWidth / 2;
+    const ypos = gameArea.clientHeight - playerHeight;
+
+    // Create a new player instance and spawn it
+    player = new Player(3, xpos, ypos);     // Store the player instance in the 'player' variable
+    player.spawn();                         // Append the player element to the DOM
+}
+
+
 function initInvaders(gameArea) {
-    gameArea.innerHTML = ''; // Clear existing invaders IF THINGS ARENT SPAWNING ITS PROLLY THIS
+    // Clear existing invaders IF THINGS ARENT SPAWNING ITS PROLLY THIS
+    gameArea.innerHTML = '';
     const gameAreaWidth = gameArea.clientWidth;
+    const gap = 35;             // Gap between each invaders
 
     const columnLength = Math.min(Math.floor(gameAreaWidth / (invaderWidth + gap)), maxColumns); // Limit to maxColumns
     const offsetX = (gameAreaWidth - (columnLength * (invaderWidth + gap) - gap)) / 2; // Center the invaders
