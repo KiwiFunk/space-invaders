@@ -1,3 +1,5 @@
+import Bullet from './bullet.js';
+
 class Player {
     constructor(lives, xpos, ypos) {
         this.lives = lives;

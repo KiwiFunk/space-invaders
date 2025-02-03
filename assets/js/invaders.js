@@ -1,3 +1,5 @@
+import Bullet from './bullet.js';
+
 class Invader {
     constructor(baseClass, hp, xpos, ypos) {
         this.baseClass = baseClass;
