@@ -32,7 +32,8 @@ body {
 }
 
 #startButton,
-#retroButton {
+#retroButton,
+#instructionsButton {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -43,10 +44,17 @@ body {
     z-index: 10;
     font-family: 'Orbitron', sans-serif;
     font-weight: 500;
+    outline: 1px solid black;
+    color: white;
+    background-color: #333333;
 }
 
 #retroButton {
     top: 60%; /* Position below the start button */
+}
+
+#instructionsButton {
+    top: 70%; /* Position below the retro button */
 }
 
 #retroButton.active {
