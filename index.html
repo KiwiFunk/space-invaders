@@ -83,9 +83,60 @@
             </div>
             <div class="modal-body">
                 <p>Game is paused. Press ESC to resume.</p>
+                <button class="pause-button" id="retryButton">Retry</button>
+                <button class="pause-button" id="settingsButton">Settings</button>
+                <button class="pause-button" id="pauseInstructionsButton">Instructions</button>
+                <button class="resume-button">Resume</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Retry Menu -->
+    <div id="retryMenu" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Retry Game</h2>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to retry the game?</p>
             </div>
             <div class="modal-footer">
-                <button class="resume-button">Resume</button>
+                <button class="return-button">Return to Pause Menu</button>
+                <button class="pause-button" id="confirmRetryButton">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Menu Modal -->
+    <div id="settingsMenu" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Settings</h2>
+            </div>
+            <div class="modal-body">
+                <p>Settings options will go here...</p>
+            </div>
+            <div class="modal-footer">
+                <button class="return-button" id="returnToPauseButton">Return to Pause Menu</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Instructions Menu for Pause -->
+    <div id="instructionsPauseMenu" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Instructions</h2>
+            </div>
+            <div class="modal-body">
+                <ul class="instructions">
+                    <li>Destroy enemies by using <b>Left</b> and <b>Right</b> or the <b>A</b> and <b>D</b> keys to move.</li>
+                    <li>Use the <b>Spacebar</b> to shoot.</li>
+                    <li><u>Stay alive</u> and <u>defend earth!</u></li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button class="return-button" id="returnToPauseFromInstructionsButton">Return to Pause Menu</button>
             </div>
         </div>
     </div>

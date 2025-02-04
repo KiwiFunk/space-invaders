@@ -388,22 +388,23 @@ function handleMove(event) {
 }
 
 function setupMenuAndModals() {
-    // Modal functionality
     const instructionsModal = document.getElementById('instructionsModal');
     const pauseMenu = document.getElementById('pauseMenu');
+    const settingsMenu = document.getElementById('settingsMenu');
+    const instructionsPauseMenu = document.getElementById('instructionsPauseMenu');
     const hero = document.querySelector('.hero');
-    
-    // Instructions button
+
+    // Instructions button in main menu
     document.getElementById('instructionsButton').addEventListener('click', function() {
         instructionsModal.classList.remove('hidden');
     });
 
-    // Close instructions via return button
-    document.querySelector('.return-button').addEventListener('click', function() {
+    // Close instructions via return button in main menu
+    document.querySelector('#instructionsModal .return-button').addEventListener('click', function() {
         instructionsModal.classList.add('hidden');
     });
 
-    // Close instructions when clicking outside
+    // Close instructions when clicking outside in main menu
     instructionsModal.addEventListener('click', function(event) {
         if (event.target === instructionsModal) {
             instructionsModal.classList.add('hidden');
@@ -426,6 +427,46 @@ function setupMenuAndModals() {
     pauseMenu.addEventListener('click', function(event) {
         if (event.target === pauseMenu) {
             pauseMenu.classList.add('hidden');
+        }
+    });
+
+    // Settings button
+    document.getElementById('settingsButton').addEventListener('click', function() {
+        pauseMenu.classList.add('hidden');
+        settingsMenu.classList.remove('hidden');
+    });
+
+    // Return to Pause Menu button in settings
+    document.getElementById('returnToPauseButton').addEventListener('click', function() {
+        settingsMenu.classList.add('hidden');
+        pauseMenu.classList.remove('hidden');
+    });
+
+    // Close settings menu when clicking outside
+    settingsMenu.addEventListener('click', function(event) {
+        if (event.target === settingsMenu) {
+            settingsMenu.classList.add('hidden');
+            pauseMenu.classList.remove('hidden');
+        }
+    });
+
+    // Instructions button in pause menu
+    document.getElementById('pauseInstructionsButton').addEventListener('click', function() {
+        pauseMenu.classList.add('hidden');
+        instructionsPauseMenu.classList.remove('hidden');
+    });
+
+    // Return to Pause Menu button in instructionsPauseMenu
+    document.getElementById('returnToPauseFromInstructionsButton').addEventListener('click', function() {
+        instructionsPauseMenu.classList.add('hidden');
+        pauseMenu.classList.remove('hidden');
+    });
+
+    // Close instructionsPauseMenu when clicking outside
+    instructionsPauseMenu.addEventListener('click', function(event) {
+        if (event.target === instructionsPauseMenu) {
+            instructionsPauseMenu.classList.add('hidden');
+            pauseMenu.classList.remove('hidden');
         }
     });
 }
