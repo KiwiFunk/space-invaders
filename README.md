@@ -7,3 +7,5 @@
 ## About
 
 For our hackathon, we have decided to recreate Space Invaders using HTML, CSS and JavaScript. We set out with the intention of creating a functional game that displays the essential pieces that make the game fun and playable.
+
+## Wireframes
