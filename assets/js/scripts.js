@@ -22,7 +22,7 @@ const invaderShoot = new Audio('assets/audio/invaderlaser.wav');
 backgroundMusic.volume = 0.6;
 shootSound.volume = 0.2;
 invaderHit.volume = 0.2;
-invaderShoot.volume = 0.1;
+invaderShoot.volume = 0.2;
 
 // Key Inputs
 const keys = {
@@ -190,7 +190,7 @@ const frameTime = 1000 / FPS;                           // Target time per frame
 let moveAccumulator = 0;
 let shootAccumulator = 0;
 
-let moveInterval = 250;                                 // Invader move speed
+let moveInterval = 300;                                 // Invader move speed
 let shootInterval = 1500;                               // Invader shoot speed
 
 function gameLoop(timestamp) {
@@ -234,9 +234,9 @@ function gameLoop(timestamp) {
 }
 
 // Change intervals to increase difficulty on new round
-function setNewIntervals(newMoveInterval, newShootInterval) {
-    moveInterval = newMoveInterval;
-    shootInterval = newShootInterval;
+function setNewIntervals() {
+    moveInterval = Math.max(Math.ceil(moveInterval - 25), 50);
+    shootInterval = Math.max(Math.ceil(shootInterval - 200), 200);
 }
 
 function playerShoot() {
@@ -468,7 +468,7 @@ function gameOver(winner) {
         activeBullets = [];
 
         // Update intervals for increased difficulty
-        setNewIntervals(moveInterval - 100, shootInterval - 500);
+        setNewIntervals();
 
         // Reset accumulators
         moveAccumulator = 0;
