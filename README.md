@@ -9,3 +9,12 @@
 For our hackathon, we have decided to recreate Space Invaders using HTML, CSS and JavaScript. We set out with the intention of creating a functional game that displays the essential pieces that make the game fun and playable.
 
 ## Wireframes
+
+# Main Menu
+<img src="wireframes/DesktopMenu.png" alt="Main Menu Wireframe" style="width: fit-content; height: fit-content;">
+
+# Game Screen
+<img src="wireframes/LiveGame.png" alt="Game Scene Wireframe" style="width: fit-content; height: fit-content;">
+
+# Instructions And Pause Menu
+<img src="wireframes/Instructions.png" alt="Instructions and Pause Wireframe" style="width: fit-content; height: fit-content;">
