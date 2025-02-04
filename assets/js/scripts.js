@@ -148,8 +148,11 @@ function updatePlayerLives() {
     playerLives.innerText = `LIVES: ${player.lives}`;
 }
 
-function updatePlayerScore() {
-
+function updatePlayerScore(scoreValue) {
+    const playerScore = document.getElementById('score');
+    let totalScore = parseInt(playerScore.innerText.split(' ')[1], 10);
+    totalScore += scoreValue;
+    playerScore.innerText = `SCORE: ${totalScore.toString().padStart(6, '0')}`;
 }
 
 //ASSET SPAWNING FUNCTIONS
@@ -264,7 +267,11 @@ function updateBullets() {
             row.forEach((invader, col) => {
                 if (invader && checkCollision(bullet, invader)) {
                     const invaderDestroyed = invader.getHit(); 
-                    if (invaderDestroyed) row.splice(col, 1);
+                    if (invaderDestroyed) {                             //If invader is destroyed
+                        updatePlayerScore(invader.scoreValue);          //Update player score
+                        invader.despawn();                              //Remove invader from DOM
+                        row.splice(col, 1);                             //Remove invader array entry
+                    } 
 
                     if (enemyInvaders.every(row => row.length === 0)) {
                         gameHasEnded = true;
