@@ -11,7 +11,6 @@
 
 body {
     font-family: 'Orbitron', sans-serif;
-    background-color: rgb(31, 31, 31);
     margin: 0;
     padding: 0;
     display: flex;
@@ -20,6 +19,7 @@ body {
     align-items: center;
     height: 100vh;
     width: 100vw;
+    /* Background Image and fallback color */
     background-image: url('../images/bg.webp');
     background-color: #470964;
 }
@@ -32,8 +32,9 @@ body {
 }
 
 /* Add this rule to disable dragging for all images */
-img {
-    pointer-events: none;
+.no-drag {
+    pointer-events: none !important;
+    user-select: none !important;
 }
 
 /* Landing page */

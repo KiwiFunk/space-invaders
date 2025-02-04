@@ -13,17 +13,20 @@ let direction = 1;          // 1 for right, -1 for left
 let gameStarted = false;
 let gameHasEnded = false;
 let paused = false;
+let gameRound = 1;
 
 //Audio load
 const backgroundMusic = new Audio('assets/audio/BG.wav');
 const shootSound = new Audio('assets/audio/laser.wav');
 const invaderHit = new Audio('assets/audio/explosion.wav'); 
 const invaderShoot = new Audio('assets/audio/invaderlaser.wav');
+const playerGotHit = new Audio('assets/audio/PlayerHit.wav');
 
 backgroundMusic.volume = 0.6;
 shootSound.volume = 0.2;
 invaderHit.volume = 0.2;
 invaderShoot.volume = 0.2;
+playerGotHit.volume = 0.2;
 
 // Key Inputs
 const keys = {
@@ -186,19 +189,19 @@ let deltaTime = 0;
 let accumulatedTime = 0;
 
 const FPS = 60;
-const frameTime = 1000 / FPS;                           // Target time per frame in ms
+const frameTime = 1000 / FPS;                               // Target time per frame in ms
 
 let moveAccumulator = 0;
 let shootAccumulator = 0;
 
-let moveInterval = 300;                                 // Invader move speed
-let shootInterval = 1500;                               // Invader shoot speed
+let moveInterval = 300;                                     // Invader move speed
+let shootInterval = 1500;                                   // Invader shoot speed
 
 function gameLoop(timestamp) {
-    if (gameHasEnded) return;
+    if (gameHasEnded) return;                               // If the game has ended, stop the game loop
     const gameArea = document.getElementById('gameArea');
 
-    if (!gameStarted) {                                 // If the game hasnt been started yet, start it and spawn player and invaders       
+    if (!gameStarted) {                                     // If the game hasnt been started yet, start it and spawn player and invaders       
         gameStarted = true;
         spawnPlayer(gameArea);
         initInvaders(gameArea);
@@ -208,7 +211,7 @@ function gameLoop(timestamp) {
         updatePlayerLives();
     }
 
-    if (!paused) { // Only update the game state if not paused
+    if (!paused) {                                          // Only update the game state if not paused
         deltaTime = timestamp - lastTime;                   // Calculate the delta time (difference from the previous frame)
         lastTime = timestamp;
         
@@ -234,11 +237,10 @@ function gameLoop(timestamp) {
         }
     }
 
-    requestAnimationFrame(gameLoop);                    // Request next frame
+    requestAnimationFrame(gameLoop);                        // Request next frame
 }
 
-// Change intervals to increase difficulty on new round
-function setNewIntervals() {
+function setNewIntervals() {                               // Increase difficulty by decreasing intervals
     moveInterval = Math.max(Math.ceil(moveInterval - 25), 50);
     shootInterval = Math.max(Math.ceil(shootInterval - 200), 200);
 }
@@ -361,6 +363,7 @@ function updateBullets() {
 
         if (bullet.direction === 1 && checkCollision(bullet, player)) { 
             const playerHit = player.getHit();
+            playerGotHit.play();
             updatePlayerLives();
             if (playerHit) {
                 gameOver('invaders');
@@ -483,9 +486,9 @@ function gameOver(winner) {
         initInvaders(gameArea);
 
         // Update round counter
-        const gameRound = document.getElementById('gameRound');
-        let currentRound = parseInt(gameRound.innerText.split(' ')[1]);
-        gameRound.innerText = `ROUND: ${currentRound + 1}`;
+        gameRound++;
+        const gameRoundElement = document.getElementById('gameRound');
+        gameRoundElement.innerText = `ROUND: ${gameRound}`;
 
         // Continue game loop
         lastTime = performance.now();
@@ -511,7 +514,7 @@ function resetGame() {
     //If reset is called, round 1 is started. Reset intervals and round count
     moveInterval = 300;
     shootInterval = 1500;
-    //set round var to 1
+    gameRound = 1;
 
     // Clear game area
     const gameArea = document.getElementById('gameArea');
@@ -535,8 +538,8 @@ function resetGame() {
     });
     activeBullets = [];
 
-    const gameRound = document.getElementById('gameRound');
-    gameRound.innerText = `ROUND: ${1}`;
+    const gameRoundElement = document.getElementById('gameRound');
+    gameRoundElement.innerText = `ROUND: ${1}`;
 
     
     const playerScore = document.getElementById('score');   //Reset current score
