@@ -17,10 +17,12 @@ let gameHasEnded = false;
 const backgroundMusic = new Audio('assets/audio/BG.wav');
 const shootSound = new Audio('assets/audio/laser.wav');
 const invaderHit = new Audio('assets/audio/explosion.wav'); 
+const invaderShoot = new Audio('assets/audio/invaderlaser.wav');
 
-backgroundMusic.volume = 0.7;
+backgroundMusic.volume = 0.6;
 shootSound.volume = 0.2;
 invaderHit.volume = 0.2;
+invaderShoot.volume = 0.1;
 
 document.addEventListener('DOMContentLoaded', function() {
     
@@ -361,6 +363,7 @@ function handleInvaderShooting() {
         column.forEach(invader => {
             if (invader && invader.canShoot && Math.random() < 0.15) {      // 15% chance to shoot
                 const bullet = invader.shoot();
+                invaderShoot.play();
                 if (bullet) {
                     activeBullets.push(bullet);
                 }
