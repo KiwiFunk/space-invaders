@@ -86,10 +86,14 @@ document.addEventListener('DOMContentLoaded', function() {
             if (player.xpos < gameArea.clientWidth - player.element.offsetWidth) player.move(10, 0); 
         }
 
-        if (e.key === ' ' && !e.repeat) {                       // Add a bullet object to the activeBullets array
-            shootSound.play();
-            const bullet = player.shoot();
-            activeBullets.push(bullet);
+        if (e.key === ' ' && !e.repeat) {                       // Spacebar to call playerShoot
+            if (!player.shootCooldown) {
+            playerShoot();
+            player.shootCooldown = true;
+            setTimeout(() => {
+                player.shootCooldown = false;
+            }, 500);                                            // set Delay for player shooting (500ms)
+            }
         }
     });
 });
@@ -148,6 +152,13 @@ function gameLoop(timestamp) {
 function setNewIntervals(newMoveInterval, newShootInterval) {
     moveInterval = newMoveInterval;
     shootInterval = newShootInterval;
+}
+
+function playerShoot() {
+    shootSound.currentTime = 0;             // Reset the sound to the beginning
+    shootSound.play();
+    const bullet = player.shoot();          // Create a bullet object
+    activeBullets.push(bullet);             // Append bullet object to the activeBullets array
 }
 
 function toggleGameOverlay() {
