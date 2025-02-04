@@ -31,6 +31,10 @@ body {
     pointer-events: none !important;
 }
 
+/* Add this rule to disable dragging for all images */
+img {
+    pointer-events: none;
+}
 
 /* Landing page */
 .hero {
