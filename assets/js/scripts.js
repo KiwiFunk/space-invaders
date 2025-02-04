@@ -268,10 +268,12 @@ function updatePlayerLives() {
 }
 
 function updatePlayerScore(scoreValue) {
+    const finalScore = document.getElementById('finalScore');
     const playerScore = document.getElementById('score');
     let totalScore = parseInt(playerScore.innerText.split(' ')[1], 10);
     totalScore += scoreValue;
     playerScore.innerText = `SCORE: ${totalScore.toString().padStart(6, '0')}`;
+    finalScore.innerText = totalScore.toString().padStart(6, '0');
 }
 
 //ASSET SPAWNING FUNCTIONS
@@ -508,6 +510,7 @@ function gameOver(winner) {
         alert('Game Over! The invaders have reached the bottom.');
         const gameOverScreen = document.getElementById('GameOverScreen');
         gameOverScreen.classList.remove('hidden');
+        gameOverButtons();
     }
 }
 
@@ -711,3 +714,68 @@ function togglePauseMenu() {
         }
     }
 }
+
+// GAME OVER MENU FUNCTIONS
+function gameOverButtons() {
+    const gameOverRetry = document.getElementById('newGameButton');
+    const mainMenuButton = document.getElementById('mainMenuButtonGO');
+
+    gameOverRetry.addEventListener('click', function () {
+        resetGame();
+        const gameOverScreen = document.getElementById('GameOverScreen');
+        gameOverScreen.classList.add('hidden');
+    });
+
+    mainMenuButton.addEventListener('click', function () {
+        const gameOverScreen = document.getElementById('GameOverScreen');
+        const gameOverlay = document.querySelector('.gameOverlay');
+        gameOverScreen.classList.add('hidden');
+        document.querySelector('.hero').classList.remove('hidden');
+
+        gameOverlay.classList.add('hidden');
+
+        backgroundMusic.pause();
+        backgroundMusic.currentTime = 0;                        // Reset background music
+
+        //Basically the same as reset from here
+        //Reset Variables
+        gameStarted = false;
+        gameHasEnded = false;
+        moveAccumulator = 0;
+        shootAccumulator = 0;
+
+        //If reset is called, round 1 is started. Reset intervals and round count
+        moveInterval = 300;
+        shootInterval = 1500;
+        gameRound = 1;
+
+        // Clear game area
+        const gameArea = document.getElementById('gameArea');
+        gameArea.innerHTML = '';
+
+        // Clear all invaders, player, and bullets
+        enemyInvaders.forEach(row => {
+            row.forEach(invader => {
+                invader.despawn();
+            });
+        });
+        enemyInvaders = [];
+
+        if (player) {
+            player.despawn();
+            player = null;
+        }
+
+        activeBullets.forEach(bullet => {
+            bullet.remove();
+        });
+        activeBullets = [];
+
+        const gameRoundElement = document.getElementById('gameRound');
+        gameRoundElement.innerText = `ROUND: ${1}`;
+
+        const playerScore = document.getElementById('score');   //Reset current score
+        playerScore.innerText = 'SCORE: 000000';
+    });
+}
+
