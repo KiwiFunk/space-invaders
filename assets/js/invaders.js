@@ -19,6 +19,14 @@ class Invader {
         this.element.style.left = this.xpos + 'px';
         this.element.style.top = this.ypos + 'px';
         gameArea.appendChild(this.element);
+        this.startAnimation();
+    }
+
+    startAnimation() {
+        this.animationInterval = setInterval(() => {
+            this.currentFrame = this.currentFrame === 'a' ? 'b' : 'a';
+            this.element.style.backgroundImage = `url('assets/images/${this.baseClass}_${this.currentFrame}.webp')`;
+        }, 500);
     }
 
     move(dx, dy) {
@@ -46,9 +54,9 @@ class Invader {
     }
 
     despawn() {
+        clearInterval(this.animationInterval);
         this.element.remove();
     }
-
 }
 
 export default Invader;

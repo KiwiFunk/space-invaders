@@ -305,7 +305,7 @@ function initInvaders(gameArea, rowLength = 4, maxColumns = 12) {
         for (let j = 0; j < rowLength; j++) {                       //How many rows of invaders
             const xpos = offsetX + (i * (invaderWidth + gap));
             const ypos = j * (invaderWidth + gap / 1.5);            // Adjust vertical spacing as needed
-            enemyInvaders[i][j] = new Invader('invaderBasic', 100, xpos, ypos, 100);
+            enemyInvaders[i][j] = new Invader('green', 100, xpos, ypos, 100);
             enemyInvaders[i][j].spawn();
         }
     }

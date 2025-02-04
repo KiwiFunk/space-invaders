@@ -152,8 +152,8 @@ body {
 }
 
 /* Sprites */
-.invaderBasic {
-    background-image: url('../images/green.webp');
+.green {
+    background-image: url('../images/green_a.webp');
     width: 50px; /* Adjusted for better game scale */
     height: 50px; 
     position: absolute;
