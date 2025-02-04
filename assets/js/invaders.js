@@ -1,12 +1,13 @@
 import Bullet from './bullet.js';
 
 class Invader {
-    constructor(baseClass, hp, xpos, ypos, canShoot) {
+    constructor(baseClass, hp, xpos, ypos, canShoot, scoreValue) {
         this.baseClass = baseClass;
         this.hp = hp;
         this.xpos = xpos;
         this.ypos = ypos;
         this.canShoot = canShoot;
+        this.scoreValue = this.scoreValue;
     }
 
     spawn() {
