@@ -122,6 +122,42 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    // Volume sliders
+    const musicVolumeSlider = document.getElementById('musicVolume');
+    const effectsVolumeSlider = document.getElementById('effectsVolume');
+    const muteMusicButton = document.getElementById('muteMusicButton');
+    const muteEffectsButton = document.getElementById('muteEffectsButton');
+
+    musicVolumeSlider.addEventListener('input', function () {
+        const volume = musicVolumeSlider.value / 100;
+        backgroundMusic.volume = volume;
+    });
+
+    effectsVolumeSlider.addEventListener('input', function () {
+        const volume = effectsVolumeSlider.value / 100;
+        shootSound.volume = volume;
+        invaderHit.volume = volume;
+        invaderShoot.volume = volume;
+    });
+
+    muteMusicButton.addEventListener('click', function () {
+        if (backgroundMusic.muted) {
+            backgroundMusic.muted = false;
+            muteMusicButton.textContent = 'Mute';
+        } else {
+            backgroundMusic.muted = true;
+            muteMusicButton.textContent = 'Unmute';
+        }
+    });
+
+    muteEffectsButton.addEventListener('click', function () {
+        const isMuted = shootSound.muted;
+        shootSound.muted = !isMuted;
+        invaderHit.muted = !isMuted;
+        invaderShoot.muted = !isMuted;
+        muteEffectsButton.textContent = isMuted ? 'Mute' : 'Unmute';
+    });
+
 });
 
 
