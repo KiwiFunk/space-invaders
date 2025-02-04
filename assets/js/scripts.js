@@ -24,18 +24,28 @@ shootSound.volume = 0.2;
 invaderHit.volume = 0.2;
 invaderShoot.volume = 0.1;
 
-document.addEventListener('DOMContentLoaded', function() {
-    
+// Key Inputs
+const keys = {
+    left: false,
+    right: false,
+    space: false
+};
+
+//Adjust player speed
+const PLAYER_SPEED = 5;
+
+document.addEventListener('DOMContentLoaded', function () {
+
     // Touch position
     let touchX = 0;
     let touchY = 0;
     let isTouching = false;
 
     // Handle the parallax effect on mousemove
-    document.addEventListener('mousemove', function(e) {
+    document.addEventListener('mousemove', function (e) {
         handleMove(e);
     });
-    
+
     // Update touch position
     function updateTouchPosition() {
         if (isTouching) {
@@ -43,8 +53,8 @@ document.addEventListener('DOMContentLoaded', function() {
             requestAnimationFrame(updateTouchPosition);
         }
     }
-    
-    document.addEventListener('touchmove', function(e) {
+
+    document.addEventListener('touchmove', function (e) {
         touchX = e.touches[0].clientX;
         touchY = e.touches[0].clientY;
         if (!isTouching) {
@@ -52,13 +62,13 @@ document.addEventListener('DOMContentLoaded', function() {
             requestAnimationFrame(updateTouchPosition);
         }
     }, { passive: true });
-    
-    document.addEventListener('touchend', function() {
+
+    document.addEventListener('touchend', function () {
         isTouching = false;
     });
-    
+
     //Insert Coin / Start Game
-    document.getElementById('startButton').addEventListener('click', function() {
+    document.getElementById('startButton').addEventListener('click', function () {
         document.querySelector('.hero').classList.add('hidden');
         //START GAME
         backgroundMusic.loop = true;
@@ -66,9 +76,9 @@ document.addEventListener('DOMContentLoaded', function() {
         lastTime = performance.now();
         requestAnimationFrame(gameLoop);
     });
-    
+
     //Retro Mode
-    document.getElementById('retroButton').addEventListener('click', function() {
+    document.getElementById('retroButton').addEventListener('click', function () {
         this.classList.toggle('active');
         const tvImage = document.getElementById('tvImage');
         const scanlines = document.getElementById('scanlines');
@@ -78,27 +88,60 @@ document.addEventListener('DOMContentLoaded', function() {
 
     setupMenuAndModals();                                       // Init modals (Instructions and Pause Menu)
 
-    document.addEventListener('keydown', function (e) {
-
-        if (e.key === 'ArrowLeft' || e.key === 'a') {           // Move player left and make sure it stays within bounds
-            if (player.xpos > 0) player.move(-10, 0); 
-        }
-
-        if (e.key === 'ArrowRight' || e.key === 'd') {          // Move player right and make sure it stays within bounds
-            if (player.xpos < gameArea.clientWidth - player.element.offsetWidth) player.move(10, 0); 
-        }
-
-        if (e.key === ' ' && !e.repeat) {                       // Spacebar to call playerShoot
-            if (!player.shootCooldown) {
-            playerShoot();
-            player.shootCooldown = true;
-            setTimeout(() => {
-                player.shootCooldown = false;
-            }, 500);                                            // set Delay for player shooting (500ms)
-            }
+    // Listeners for player movement
+    document.addEventListener('keydown', (e) => {
+        if (!gameStarted || gameHasEnded) return;
+        switch (e.code) {
+            case 'ArrowLeft':
+            case 'KeyA':
+                keys.left = true;
+                break;
+            case 'ArrowRight':
+            case 'KeyD':
+                keys.right = true;
+                break;
+            case 'Space':
+                keys.space = true;
+                break;
         }
     });
+
+    document.addEventListener('keyup', (e) => {
+        switch (e.code) {
+            case 'ArrowLeft':
+            case 'KeyA':
+                keys.left = false;
+                break;
+            case 'ArrowRight':
+            case 'KeyD':
+                keys.right = false;
+                break;
+            case 'Space':
+                keys.space = false;
+                break;
+        }
+    });
+
 });
+
+
+// Player Controls
+function updatePlayer() {
+    const gameArea = document.getElementById('gameArea');
+    
+    if (keys.left && player.xpos > 0) {
+        player.move(-PLAYER_SPEED, 0);
+    }
+    if (keys.right && player.xpos < gameArea.clientWidth - player.element.offsetWidth) {
+        player.move(PLAYER_SPEED, 0);
+    }
+    if (keys.space && !player.shootCooldown) {
+        playerShoot();
+        player.shootCooldown = true;
+        setTimeout(() => player.shootCooldown = false, 500);
+    }
+}
+
 
 //GAME LOOP
 let lastTime = 0;
@@ -136,6 +179,8 @@ function gameLoop(timestamp) {
         accumulatedTime -= frameTime;                   // Reset accumulated time after processing frame logic
         moveAccumulator += deltaTime;                   // Time step accumulators for movement and shooting
         shootAccumulator += deltaTime;
+
+        updatePlayer();                                 // Update player movement        
 
         while (moveAccumulator >= moveInterval) {       // Update game logic
             moveInvaders();
