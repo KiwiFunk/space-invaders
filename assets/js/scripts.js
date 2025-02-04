@@ -675,5 +675,8 @@ function setupMenuAndModals() {
 function togglePauseMenu() {
     const pauseMenu = document.getElementById('pauseMenu');
     pauseMenu.classList.toggle('hidden');
-    paused = !paused;
+
+    if (!gameHasEnded) {
+        paused = !paused;
+    }
 }
