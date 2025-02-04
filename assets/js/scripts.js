@@ -13,6 +13,15 @@ let direction = 1;          // 1 for right, -1 for left
 let gameStarted = false;
 let gameHasEnded = false;
 
+//Audio load
+const backgroundMusic = new Audio('assets/audio/BG.wav');
+const shootSound = new Audio('assets/audio/laser.wav');
+const invaderHit = new Audio('assets/audio/explosion.wav'); 
+
+backgroundMusic.volume = 0.7;
+shootSound.volume = 0.2;
+invaderHit.volume = 0.2;
+
 document.addEventListener('DOMContentLoaded', function() {
     
     // Touch position
@@ -50,6 +59,8 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('startButton').addEventListener('click', function() {
         document.querySelector('.hero').classList.add('hidden');
         //START GAME
+        backgroundMusic.loop = true;
+        backgroundMusic.play();
         lastTime = performance.now();
         requestAnimationFrame(gameLoop);
     });
@@ -76,6 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         if (e.key === ' ' && !e.repeat) {                       // Add a bullet object to the activeBullets array
+            shootSound.play();
             const bullet = player.shoot();
             activeBullets.push(bullet);
         }
@@ -93,7 +105,7 @@ const frameTime = 1000 / FPS;                           // Target time per frame
 let moveAccumulator = 0;
 let shootAccumulator = 0;
 
-let moveInterval = 400;                                 // Invader move speed
+let moveInterval = 300;                                 // Invader move speed
 let shootInterval = 1500;                               // Invader shoot speed
 
 function gameLoop(timestamp) {
@@ -271,6 +283,7 @@ function updateBullets() {
                         updatePlayerScore(invader.scoreValue);          //Update player score
                         invader.despawn();                              //Remove invader from DOM
                         row.splice(col, 1);                             //Remove invader array entry
+                        invaderHit.play();                              //Play invader hit sound
                     } 
 
                     if (enemyInvaders.every(row => row.length === 0)) {
