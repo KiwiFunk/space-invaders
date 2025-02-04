@@ -12,7 +12,10 @@ let direction = 1;          // 1 for right, -1 for left
 //Game State Bools
 let gameStarted = false;
 let gameHasEnded = false;
+
 let paused = false;
+let pauseStartTime = 0;
+
 let gameRound = 1;
 
 //Audio load
@@ -211,21 +214,21 @@ function gameLoop(timestamp) {
         updatePlayerLives();
     }
 
-    if (!paused) {                                          // Only update the game state if not paused
-        deltaTime = timestamp - lastTime;                   // Calculate the delta time (difference from the previous frame)
+    if (!paused) {                                              // Only update the game state if not paused
+        const deltaTime = Math.min(timestamp - lastTime, 50)    // Calculate the delta time (difference from the previous frame) Cap to prevent large jumps.
         lastTime = timestamp;
         
-        accumulatedTime += deltaTime;                       // Accumulate the time passed for frame-based processing
+        accumulatedTime += deltaTime;                           // Accumulate the time passed for frame-based processing
 
-        if (accumulatedTime >= frameTime) {                 // If enough time has passed to process a new frame, continue
+        if (accumulatedTime >= frameTime) {                     // If enough time has passed to process a new frame, continue
            
-            accumulatedTime -= frameTime;                   // Reset accumulated time after processing frame logic
-            moveAccumulator += deltaTime;                   // Time step accumulators for movement and shooting
+            accumulatedTime -= frameTime;                       // Reset accumulated time after processing frame logic
+            moveAccumulator += deltaTime;                       // Time step accumulators for movement and shooting
             shootAccumulator += deltaTime;
 
-            updatePlayer();                                 // Update player movement        
+            updatePlayer();                                     // Update player movement        
 
-            while (moveAccumulator >= moveInterval) {       // Update game logic
+            while (moveAccumulator >= moveInterval) {           // Update game logic
                 moveInvaders();
                 moveAccumulator -= moveInterval;
             }
@@ -681,5 +684,15 @@ function togglePauseMenu() {
 
     if (!gameHasEnded) {
         paused = !paused;
+        
+        if (paused) {
+            pauseStartTime = performance.now();
+        } else {
+            // Reset timing on unpause
+            lastTime = performance.now();
+            moveAccumulator = 0;
+            shootAccumulator = 0;
+            accumulatedTime = 0;
+        }
     }
 }
