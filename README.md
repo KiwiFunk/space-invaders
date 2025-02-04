@@ -8,8 +8,8 @@
 <ul>
 	<a href="#about"><li>About The Project</li></a>
 	<a href="#wireframes"><li>Wireframes</li></a>
-	<a href=""><li></li></a>
-	<a href=""><li></li></a>
+	<a href="#ux-user-experience"><li>User Experience</li></a>
+	<a href="#technologies-used"><li>Technologies Used</li></a>
 	<a href=""><li></li></a>
 </ul>
 
@@ -34,3 +34,19 @@ Initially, we input out project goals into GitHub Copilot and had it generate us
 Our strategy for this ensured that we had a clear cut understanding of what a user would expect from a simple web-based application and we refined our results to match the scope of our project and timeframe.
 
 After generating the <a href="#wireframes">wireframes</a> we set about to create our design visually (as shown above). We achieved a parralax effect that moves based on the cursor position for the main menu and overlayed a retro effect using gradients and an image of darkened screen corners that represent <abbr title="Cathode Ray Tube">CRT</abbr> monitors and arcade cabinets.
+
+## Technologies Used
+
+<ul>
+    <a href="https://code.visualstudio.com/"><li>Visual Studio Code (VSC)</li></a>
+    <a href="https://balsamiq.com/"><li>Balsamiq</li></a>
+    <a href="https://slack.com/intl/en-gb/"><li>Slack</li></a>
+</ul>
+
+## Testing
+
+<img src="wireframes/desktop_lighthouse.png" alt="Desktop Lighthouse Score" style="width: 649px; height: 784px;"> <img src="wireframes/mobile_lighthouse.png" alt="Mobile Lighthouse Score" style="width: 649px; height: 784px;">
+
+## Credits
+
+<a href="">Google Fonts</a>
