@@ -47,7 +47,7 @@
         <div id="scanlines"></div>
     </section>
     <div class="hero">
-        <div class="menu-buttons">
+        <div class="menu-button-container">
             <button class = "btn" id="startButton">Insert Coin</button>
             <button class = "btn" id="retroButton">Retro Mode</button>
             <button class = "btn" id="instructionsButton">Instructions</button>
@@ -90,7 +90,7 @@
                 </ul>
             </div>
             <div class="modal-footer">
-                <button class="return-button">Return to game</button>
+                <button class="btn-alt">Return to game</button>
             </div>
         </div>
     </div>
@@ -103,10 +103,12 @@
             </div>
             <div class="modal-body">
                 <p>Game is paused. Press ESC to resume.</p>
-                <button class="pause-button" id="retryButton">Retry</button>
-                <button class="pause-button" id="settingsButton">Settings</button>
-                <button class="pause-button" id="pauseInstructionsButton">Instructions</button>
-                <button class="resume-button">Resume</button>
+                <div class="pause-menu-buttons">
+                    <button class="btn-alt" id="resumeButton">Resume</button>
+                    <button class="btn-alt" id="retryButton">Retry</button>
+                    <button class="btn-alt" id="pauseInstructionsButton">Instructions</button>
+                    <button class="btn-alt" id="settingsButton">Settings</button>
+                </div>
             </div>
         </div>
     </div>

@@ -45,29 +45,6 @@ body {
     user-select: none !important;
 }
 
-/* Landing page */
-.hero {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    overflow: hidden;
-    background-size: cover;
-    background-position: center;
-}
-
-.menu-buttons {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    flex-direction: column;
-    gap: 3.5rem;
-    z-index: 10;
-    justify-content: center;
-    align-items: center;
-}
-
 .btn {
     font-family: 'Orbitron', sans-serif;
     width: 15rem;
@@ -80,6 +57,49 @@ body {
     font-weight: 500;
     color: white;
     background-color: #333333;
+}
+
+.btn-alt {
+    font-family: 'Orbitron', sans-serif;
+    background-color: #D9A761;
+    color: black;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: 400;
+    letter-spacing: 2px;
+    cursor: pointer;
+    border-radius: 0.25rem;
+    min-width: 170px;
+}
+
+.btn-alt:hover {
+    background-color:var(--menu-button-hover-color);
+    color: white;
+    outline: none;
+}
+
+/* Landing page */
+.hero {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+}
+
+.menu-button-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    gap: 3.5rem;
+    z-index: 10;
+    justify-content: center;
+    align-items: center;
 }
 
 #tvImage,
@@ -271,49 +291,6 @@ body {
     border-top: 1px solid #e9ecef;
 }
 
-.return-button {
-    font-family: '8-Bit-Hud', 'Orbitron', sans-serif;
-    background-color: #D9A761;
-    color: black;
-    border: none;
-    padding: 10px 20px;
-    font-size: 1rem;
-    font-weight: 400;
-    letter-spacing: 2px;
-    cursor: pointer;
-    border-radius: 0.25rem;
-}
-
-.return-button:hover,
-.return-button:focus {
-    background-color:var(--menu-button-hover-color);
-    color: white;
-    outline: none;
-}
-
-/* Modal Button Styles */
-.modal-button {
-    font-family: 'Orbitron', sans-serif;
-    background-color: var(--menu-button-color);
-    color: black;
-    border: none;
-    padding: 10px 20px;
-    font-size: 1rem;
-    font-weight: 400;
-    letter-spacing: 2px;
-    cursor: pointer;
-    border-radius: 0.25rem;
-    width: 400px;
-    height: 200px;
-}
-
-.modal-button:hover,
-.modal-button:focus {
-    background-color: #492666;
-    color: white;
-    outline: none;
-}
-
 /* Pause Menu Styles */
 #pauseMenu .modal-content {
     background-color: #333333;
@@ -354,52 +331,23 @@ body {
     gap: 1rem; /* Add some space between the buttons */
 }
 
+.pause-menu-buttons {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.pause-menu-buttons > * {
+    flex: 1 1 calc(50% - 1rem); /* Two columns with gap */
+    box-sizing: border-box;
+}
+
 #pauseMenu .modal-footer {
     display: flex;
     justify-content: center; /* Center the resume button */
     padding-top: 1rem;
     border-top: 1px solid #e9ecef;
-}
-
-.resume-button {
-    font-family: 'Orbitron', sans-serif;
-    background-color: #D9A761;
-    color: black;
-    border: none;
-    padding: 10px 20px;
-    font-size: 1rem;
-    font-weight: 400;
-    letter-spacing: 2px;
-    cursor: pointer;
-    border-radius: 0.25rem;
-}
-
-.resume-button:hover,
-.resume-button:focus {
-    background-color: #492666;
-    color: white;
-    outline: none;
-}
-
-.pause-button {
-    background-color: #D9A761;
-    color: black;
-    border: none;
-    padding: 10px 20px;
-    font-size: 1rem;
-    font-weight: 400;
-    letter-spacing: 2px;
-    cursor: pointer;
-    border-radius: 0.25rem;
-    font-family: 'Orbitron', sans-serif;
-    margin-left: 10px;
-}
-
-.pause-button:hover,
-.pause-button:focus {
-    background-color: #492666;
-    color: white;
-    outline: none;
 }
 
 /* Volume Control Styles */

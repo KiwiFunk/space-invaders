@@ -602,7 +602,7 @@ function setupMenuAndModals() {
     });
 
     // Close instructions via return button in main menu
-    document.querySelector('#instructionsModal .return-button').addEventListener('click', function() {
+    document.querySelector('#instructionsModal .btn-alt').addEventListener('click', function() {
         instructionsModal.classList.add('hidden');
     });
 
@@ -621,7 +621,7 @@ function setupMenuAndModals() {
     });
 
     // Resume button
-    document.querySelector('.resume-button').addEventListener('click', function() {
+    document.getElementById('resume-button').addEventListener('click', function() {
         togglePauseMenu();
     });
 
