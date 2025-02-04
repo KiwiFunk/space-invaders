@@ -119,11 +119,17 @@
             <div class="modal-body">
                 <div class="volume-control">
                     <label for="musicVolume">Music Volume</label>
-                    <input type="range" id="musicVolume" name="musicVolume" min="0" max="100" step="25" value="60">
+                    <div class="volume-slider-container">
+                        <input type="range" id="musicVolume" name="musicVolume" min="0" max="100" step="25" value="60">
+                        <button class="mute-button" id="muteMusicButton">Mute</button>
+                    </div>
                 </div>
                 <div class="volume-control">
                     <label for="effectsVolume">Effects Volume</label>
-                    <input type="range" id="effectsVolume" name="effectsVolume" min="0" max="100" step="25" value="20">
+                    <div class="volume-slider-container">
+                        <input type="range" id="effectsVolume" name="effectsVolume" min="0" max="100" step="25" value="20">
+                        <button class="mute-button" id="muteEffectsButton">Mute</button>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">

@@ -397,6 +397,30 @@ body {
     margin-bottom: 1rem;
 }
 
+.volume-slider-container {
+    display: flex;
+    align-items: center;
+}
+
+.mute-button {
+    margin-left: 10px;
+    background-color: var(--menu-button-color);
+    color: black;
+    border: none;
+    padding: 5px 10px;
+    font-size: 1rem;
+    font-weight: 400;
+    cursor: pointer;
+    border-radius: 0.25rem;
+}
+
+.mute-button:hover,
+.mute-button:focus {
+    background-color: var(--menu-button-hover-color);
+    color: white;
+    outline: none;
+}
+
 .volume-control label {
     margin-bottom: 0.5rem;
     font-size: 1rem;
