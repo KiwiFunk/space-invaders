@@ -46,8 +46,6 @@ document.addEventListener('DOMContentLoaded', function() {
         isTouching = false;
     });
     
-    // Main menu buttons
-
     //Insert Coin / Start Game
     document.getElementById('startButton').addEventListener('click', function() {
         document.querySelector('.hero').classList.add('hidden');
@@ -93,49 +91,75 @@ document.addEventListener('DOMContentLoaded', function() {
 
 //GAME LOOP
 
-//TIMING FUNCTIONS
 let lastTime = 0;
+let deltaTime = 0;
+let accumulatedTime = 0;
+
+const FPS = 60;
+const frameTime = 1000 / FPS;                   // Target time per frame in ms
+
 let moveAccumulator = 0;
 let shootAccumulator = 0;
 
+let moveInterval = 500;                         // Invader move speed
+let shootInterval = 1500;                       // Invader shoot speed
+
 function gameLoop(timestamp) {
     if (gameHasEnded) return;
-
     const gameArea = document.getElementById('gameArea');
 
-    // Calculate delta time
-    const deltaTime = timestamp - lastTime;
+    if (!gameStarted) {
+        gameStarted = true;
+        spawnPlayer(gameArea);
+        initInvaders(gameArea);
+    }
+
+    // Calculate the delta time, the difference from the previous frame
+    deltaTime = timestamp - lastTime;
     lastTime = timestamp;
 
-    if (!gameStarted) {
-        initInvaders(gameArea);
-        spawnPlayer();
-        gameStarted = true;
+    // Accumulate the time passed for frame-based processing
+    accumulatedTime += deltaTime;
+
+    // If enough time has passed to process a new frame, continue
+    if (accumulatedTime >= frameTime) {
+        // Reset accumulated time after processing frame logic
+        accumulatedTime -= frameTime;
+
+        // Time step accumulators for movement and shooting
+        moveAccumulator += deltaTime;
+        shootAccumulator += deltaTime;
+
+        // Update game state using fixed time steps
+        // Update movement logic
+        while (moveAccumulator >= moveInterval) {
+            moveInvaders();
+            moveAccumulator -= moveInterval;
+        }
+
+        // Update shooting logic
+        while (shootAccumulator >= shootInterval) {
+            handleInvaderShooting();
+            shootAccumulator -= shootInterval;
+        }
+
+        updateBullets();
     }
 
-    moveAccumulator += deltaTime;
-    if (moveAccumulator >= 500) {           // How often invaders move
-        moveInvaders();
-        moveAccumulator = 0;
-    }
-
-    // Control invader shooting
-    shootAccumulator += deltaTime;
-    if (shootAccumulator >= 1500) {         // How often invaders shoot
-        handleInvaderShooting();
-        shootAccumulator = 0;
-    }
-
-    moveBullets();                          // Bullets updated every frame            
-
+    // Request next frame
     requestAnimationFrame(gameLoop);
 }
 
+// Change intervals to increase difficulty on new round
+function setNewIntervals(newMoveInterval, newShootInterval) {
+    moveInterval = newMoveInterval;
+    shootInterval = newShootInterval;
+}
+
+
 //ASSET SPAWNING
 
-function spawnPlayer() {
-    const gameArea = document.getElementById('gameArea');
-
+function spawnPlayer(gameArea) {
     // Get player width and height (using a temporary element for measurement)
     const tempPlayer = document.createElement('div');
     tempPlayer.classList.add('player');
@@ -146,7 +170,7 @@ function spawnPlayer() {
 
     const xpos = gameArea.clientWidth / 2 - playerWidth / 2;
     const ypos = gameArea.clientHeight - playerHeight;
-
+    
     // Create a new player instance and spawn it
     player = new Player(3, xpos, ypos);     // Store the player instance in the 'player' variable
     player.spawn();                         // Append the player element to the DOM
@@ -217,7 +241,7 @@ function moveInvaders(moveDistance = 5) {
 
 //ATTACK FUNCTIONS
 
-function moveBullets() {
+function updateBullets() {
     activeBullets = activeBullets.filter(bullet => {
         const isActive = bullet.move();
         if (!isActive) {
@@ -250,7 +274,6 @@ function moveBullets() {
                         gameHasEnded = true;
                         gameOver('player');
                     }
-                   
                     bullet.remove();
                     bulletHit = true;
                 }
