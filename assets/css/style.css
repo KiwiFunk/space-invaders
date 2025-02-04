@@ -490,7 +490,6 @@ body {
     flex-flow: column nowrap;
     justify-content: center;
     align-items: center;
-
     position: absolute;
 
     width: 100%;
@@ -499,6 +498,10 @@ body {
     z-index: 9999; /* High z-index to ensure it appears on top */
     color: var(--primary-font-color);
     font-size: 1.5em;
+}
+
+#GameOverScreen .btn {
+    margin: 10px 0;
 }
 
 #GameOverScreen h1 {
