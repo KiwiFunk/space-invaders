@@ -7,14 +7,12 @@ let player;
 let enemyInvaders = [];
 let activeBullets = [];
 
-const moveInterval = 300;   // Time in ms between each move
 let direction = 1;          // 1 for right, -1 for left
 
 //Game State Bools
 let gameStarted = false;
 let gameHasEnded = false;
 
-//Menu Functions
 document.addEventListener('DOMContentLoaded', function() {
     
     // Touch position
@@ -53,6 +51,9 @@ document.addEventListener('DOMContentLoaded', function() {
     //Insert Coin / Start Game
     document.getElementById('startButton').addEventListener('click', function() {
         document.querySelector('.hero').classList.add('hidden');
+        //START GAME
+        lastTime = performance.now();
+        requestAnimationFrame(gameLoop);
     });
     
     //Retro Mode
@@ -64,107 +65,71 @@ document.addEventListener('DOMContentLoaded', function() {
         scanlines.classList.toggle('hidden');
     });
 
-    // Modal functionality
-    const instructionsModal = document.getElementById('instructionsModal');
-    const pauseMenu = document.getElementById('pauseMenu');
-    const hero = document.querySelector('.hero');
-    
-    // Instructions button
-    document.getElementById('instructionsButton').addEventListener('click', function() {
-        instructionsModal.classList.remove('hidden');
-    });
+    // Init modals (Instructions and Pause Menu)
+    setupMenuAndModals();
 
-    // Close instructions via return button
-    document.querySelector('.return-button').addEventListener('click', function() {
-        instructionsModal.classList.add('hidden');
-    });
+    // PLAYER INPUTS FOR GAME FUNCTIONS
+    document.addEventListener('keydown', function (e) {
 
-    // Close instructions when clicking outside
-    instructionsModal.addEventListener('click', function(event) {
-        if (event.target === instructionsModal) {
-            instructionsModal.classList.add('hidden');
+        if (e.key === 'ArrowLeft' || e.key === 'a') {
+            if (player.xpos > 0) {  // Ensure player doesn't move out of bounds
+                player.move(-10, 0);  // Move left
+            }
         }
-    });
 
-    // Pause menu toggle with ESC key
-    document.addEventListener('keydown', function(event) {
-        if (event.key === 'Escape' && hero.classList.contains('hidden')) {
-            pauseMenu.classList.toggle('hidden');
+        if (e.key === 'ArrowRight' || e.key === 'd') {
+            if (player.xpos < gameArea.clientWidth - player.element.offsetWidth) {  // Ensure player stays within bounds
+                player.move(10, 0);  // Move right
+            }
         }
-    });
 
-    // Resume button
-    document.querySelector('.resume-button').addEventListener('click', function() {
-        pauseMenu.classList.add('hidden');
-    });
-
-    // Close pause menu when clicking outside
-    pauseMenu.addEventListener('click', function(event) {
-        if (event.target === pauseMenu) {
-            pauseMenu.classList.add('hidden');
+        if (e.key === ' ' && !e.repeat) {
+            const bullet = player.shoot();
+            activeBullets.push(bullet);
         }
     });
 
 });
 
+//GAME LOOP
 
-//Game Loop
-document.addEventListener('DOMContentLoaded', function() {
+//TIMING FUNCTIONS
+let lastTime = 0;
+let moveAccumulator = 0;
+let shootAccumulator = 0;
 
-    //Get playable area
+function gameLoop(timestamp) {
+    if (gameHasEnded) return;
+
     const gameArea = document.getElementById('gameArea');
 
-    //Start game on button click
-    document.getElementById('startButton').addEventListener('click', function() {
+    // Calculate delta time
+    const deltaTime = timestamp - lastTime;
+    lastTime = timestamp;
 
-        //Init invaders
+    if (!gameStarted) {
         initInvaders(gameArea);
-        window.addEventListener('resize', function() {
-            initInvaders(gameArea); // Recalculate on window resize
-        });
-
-        // Player spawn
         spawnPlayer();
+        gameStarted = true;
+    }
 
-        //Start Game
-        if(!gameStarted) {
-            setInterval(moveInvaders, moveInterval); // Move invaders at set intervals
-            gameStarted = true;
-        }
+    moveAccumulator += deltaTime;
+    if (moveAccumulator >= 500) {           // How often invaders move
+        moveInvaders();
+        moveAccumulator = 0;
+    }
 
-        //Start Enemy Attacks
-        setInterval(() => {
-            frontInvaders();
-            handleInvaderShooting();
-        }, 1000); // Check every second
+    // Control invader shooting
+    shootAccumulator += deltaTime;
+    if (shootAccumulator >= 1500) {         // How often invaders shoot
+        handleInvaderShooting();
+        shootAccumulator = 0;
+    }
 
-        //Get Player Inputs
-        document.addEventListener('keydown', function(e) {
-            
-            if (e.key === 'ArrowLeft' || e.key === 'a') {
-                if (player.xpos > 0) {  // Ensure player doesn't move out of bounds
-                    player.move(-10, 0);  // Move left
-                }
-            }
+    moveBullets();                          // Bullets updated every frame            
 
-            if (e.key === 'ArrowRight' || e.key === 'd') {
-                if (player.xpos < gameArea.clientWidth - player.element.offsetWidth) {  // Ensure player stays within bounds
-                    player.move(10, 0);  // Move right
-                }
-            }
-
-            if (e.key === ' ' && !e.repeat) {
-                const bullet = player.shoot();
-                activeBullets.push(bullet);
-            }
-        });
-
-    });   
-
-    setInterval(moveBullets, 20); // Move bullets at set intervals
-
-});
-
+    requestAnimationFrame(gameLoop);
+}
 
 //ASSET SPAWNING
 
@@ -189,8 +154,6 @@ function spawnPlayer() {
 
 
 function initInvaders(gameArea, rowLength = 4, maxColumns = 12) {
-    // Clear existing invaders IF THINGS ARENT SPAWNING ITS PROLLY THIS
-    gameArea.innerHTML = '';
     const gameAreaWidth = gameArea.clientWidth;
     const invaderWidth = 50;    // Width of each invader
     const gap = 35;             // Gap between each invaders
@@ -255,15 +218,13 @@ function moveInvaders(moveDistance = 5) {
 //ATTACK FUNCTIONS
 
 function moveBullets() {
-    // Move each bullet and remove those that are out of bounds
     activeBullets = activeBullets.filter(bullet => {
         const isActive = bullet.move();
         if (!isActive) {
             bullet.remove();
         }
 
-        // Check if enemy bullet hits player
-        if (bullet.direction === 1 && checkCollision(bullet, player)) { // Enemy bullet
+        if (bullet.direction === 1 && checkCollision(bullet, player)) { 
             const playerHit = player.getHit();
             if (playerHit) {
                 gameHasEnded = true;
@@ -276,20 +237,15 @@ function moveBullets() {
         return isActive;
     });
 
-    // Check for collisions with invaders
     activeBullets = activeBullets.filter(bullet => {
         let bulletHit = false;
 
         enemyInvaders.forEach((row, rowIndex) => {
             row.forEach((invader, col) => {
-                if (invader && checkCollision(bullet, invader)) { 
-
-                    // Call getHit(). If invader was destroyed, remove from array.
+                if (invader && checkCollision(bullet, invader)) {
                     const invaderDestroyed = invader.getHit(); 
                     if (invaderDestroyed) row.splice(col, 1);
 
-                    // Check if every invader in the array has been destroyed
-                    //Last modification to function. If any freezing occurs, check here
                     if (enemyInvaders.every(row => row.length === 0)) {
                         gameHasEnded = true;
                         gameOver('player');
@@ -303,6 +259,7 @@ function moveBullets() {
         return !bulletHit;
     });
 }
+
 
 function checkCollision(bullet, target) {
     // Get bounding boxes for bullet and target 
@@ -347,11 +304,12 @@ function frontInvaders() {
 }
 
 function handleInvaderShooting() {
-    if (gameHasEnded) return;
     
+    frontInvaders();                                                    // Check which invaders can shoot
+
     enemyInvaders.forEach(column => {
         column.forEach(invader => {
-            if (invader && invader.canShoot && Math.random() < 0.15) { // 15% chance to shoot
+            if (invader && invader.canShoot && Math.random() < 0.15) {  // 15% chance to shoot
                 const bullet = invader.shoot();
                 if (bullet) {
                     activeBullets.push(bullet);
@@ -362,9 +320,9 @@ function handleInvaderShooting() {
 }
 
 
-
 //GAME END FUNCTIONS
 function gameOver(winner) {
+    gameHasEnded = true;
     //Clear Game Area on end state
     gameArea.innerHTML = '';
     
@@ -407,5 +365,48 @@ function handleMove(event) {
 
         layer.style.transition = 'transform 0.1s ease-out';
         layer.style.transform = `translateX(${x}px) translateY(${y}px) scale(${scale})`;
+    });
+}
+
+function setupMenuAndModals() {
+    // Modal functionality
+    const instructionsModal = document.getElementById('instructionsModal');
+    const pauseMenu = document.getElementById('pauseMenu');
+    const hero = document.querySelector('.hero');
+    
+    // Instructions button
+    document.getElementById('instructionsButton').addEventListener('click', function() {
+        instructionsModal.classList.remove('hidden');
+    });
+
+    // Close instructions via return button
+    document.querySelector('.return-button').addEventListener('click', function() {
+        instructionsModal.classList.add('hidden');
+    });
+
+    // Close instructions when clicking outside
+    instructionsModal.addEventListener('click', function(event) {
+        if (event.target === instructionsModal) {
+            instructionsModal.classList.add('hidden');
+        }
+    });
+
+    // Pause menu toggle with ESC key
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape' && hero.classList.contains('hidden')) {
+            pauseMenu.classList.toggle('hidden');
+        }
+    });
+
+    // Resume button
+    document.querySelector('.resume-button').addEventListener('click', function() {
+        pauseMenu.classList.add('hidden');
+    });
+
+    // Close pause menu when clicking outside
+    pauseMenu.addEventListener('click', function(event) {
+        if (event.target === pauseMenu) {
+            pauseMenu.classList.add('hidden');
+        }
     });
 }
