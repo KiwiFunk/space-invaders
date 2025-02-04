@@ -12,6 +12,7 @@ let direction = 1;          // 1 for right, -1 for left
 //Game State Bools
 let gameStarted = false;
 let gameHasEnded = false;
+let paused = false;
 
 //Audio load
 const backgroundMusic = new Audio('assets/audio/BG.wav');
@@ -207,29 +208,32 @@ function gameLoop(timestamp) {
         updatePlayerLives();
     }
 
-    deltaTime = timestamp - lastTime;                   // Calculate the delta time (difference from the previous frame)
-    lastTime = timestamp;
-    
-    accumulatedTime += deltaTime;                       // Accumulate the time passed for frame-based processing
+    if (!paused) { // Only update the game state if not paused
+        deltaTime = timestamp - lastTime;                   // Calculate the delta time (difference from the previous frame)
+        lastTime = timestamp;
+        
+        accumulatedTime += deltaTime;                       // Accumulate the time passed for frame-based processing
 
-    if (accumulatedTime >= frameTime) {                 // If enough time has passed to process a new frame, continue
-       
-        accumulatedTime -= frameTime;                   // Reset accumulated time after processing frame logic
-        moveAccumulator += deltaTime;                   // Time step accumulators for movement and shooting
-        shootAccumulator += deltaTime;
+        if (accumulatedTime >= frameTime) {                 // If enough time has passed to process a new frame, continue
+           
+            accumulatedTime -= frameTime;                   // Reset accumulated time after processing frame logic
+            moveAccumulator += deltaTime;                   // Time step accumulators for movement and shooting
+            shootAccumulator += deltaTime;
 
-        updatePlayer();                                 // Update player movement        
+            updatePlayer();                                 // Update player movement        
 
-        while (moveAccumulator >= moveInterval) {       // Update game logic
-            moveInvaders();
-            moveAccumulator -= moveInterval;
+            while (moveAccumulator >= moveInterval) {       // Update game logic
+                moveInvaders();
+                moveAccumulator -= moveInterval;
+            }
+            while (shootAccumulator >= shootInterval) {
+                handleInvaderShooting();
+                shootAccumulator -= shootInterval;
+            }
+            updateBullets();
         }
-        while (shootAccumulator >= shootInterval) {
-            handleInvaderShooting();
-            shootAccumulator -= shootInterval;
-        }
-        updateBullets();
     }
+
     requestAnimationFrame(gameLoop);                    // Request next frame
 }
 
@@ -580,19 +584,19 @@ function setupMenuAndModals() {
     // Pause menu toggle with ESC key
     document.addEventListener('keydown', function(event) {
         if (event.key === 'Escape' && hero.classList.contains('hidden')) {
-            pauseMenu.classList.toggle('hidden');
+            togglePauseMenu();
         }
     });
 
     // Resume button
     document.querySelector('.resume-button').addEventListener('click', function() {
-        pauseMenu.classList.add('hidden');
+        togglePauseMenu();
     });
 
     // Close pause menu when clicking outside
     pauseMenu.addEventListener('click', function(event) {
         if (event.target === pauseMenu) {
-            pauseMenu.classList.add('hidden');
+            togglePauseMenu();
         }
     });
 
@@ -641,4 +645,11 @@ function setupMenuAndModals() {
         resetGame();
         pauseMenu.classList.add('hidden');
     });
+}
+
+// Function to toggle the pause menu
+function togglePauseMenu() {
+    const pauseMenu = document.getElementById('pauseMenu');
+    pauseMenu.classList.toggle('hidden');
+    paused = !paused;
 }
