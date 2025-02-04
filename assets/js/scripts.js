@@ -165,7 +165,9 @@ function gameLoop(timestamp) {
         gameStarted = true;
         spawnPlayer(gameArea);
         initInvaders(gameArea);
-        toggleGameOverlay();
+        if (document.getElementsByClassName('gameOverlay')[0].classList.contains('hidden')) {
+            toggleGameOverlay();
+        }
         updatePlayerLives();
     }
 
@@ -435,33 +437,49 @@ function gameOver(winner) {
     
 }
 
-// Add this function to reset the game state
+//Reset the game state
 function resetGame() {
-    // Reset game state variables
+    //Reset Variables
     gameStarted = false;
     gameHasEnded = false;
-    direction = 1;
     moveAccumulator = 0;
     shootAccumulator = 0;
+
+    //If reset is called, round 1 is started. Reset intervals and round count
     moveInterval = 300;
     shootInterval = 1500;
+    //set round var to 1
 
     // Clear game area
     const gameArea = document.getElementById('gameArea');
     gameArea.innerHTML = '';
 
-    // Reset score and lives
-    const playerScore = document.getElementById('score');
+    // Clear all invaders, player, and bullets
+    enemyInvaders.forEach(row => {
+        row.forEach(invader => {
+            invader.despawn();
+        });
+    });
+    enemyInvaders = [];
+
+    if (player) {
+        player.despawn();
+        player = null;
+    }
+
+    activeBullets.forEach(bullet => {
+        bullet.remove();
+    });
+    activeBullets = [];
+
+    
+    const playerScore = document.getElementById('score');   //Reset current score
     playerScore.innerText = 'SCORE: 000000';
-    const playerLives = document.getElementById('lives');
-    playerLives.innerText = 'LIVES: 3';
 
-    // Stop background music
-    backgroundMusic.pause();
-    backgroundMusic.currentTime = 0;
+    backgroundMusic.currentTime = 0;                        // Reset background music
+    backgroundMusic.play();
 
-    // Restart the game
-    lastTime = performance.now();
+    lastTime = performance.now();                           // Restart the game
     requestAnimationFrame(gameLoop);
 }
 
