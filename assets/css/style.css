@@ -184,11 +184,12 @@ body {
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-around;
-    gap: 200px;
+    gap: 80px;
     margin: 20px 3px;
     top: 0;
     color: #ffffff;
     font-size: 1.2rem;
+    max-width: 1200px;
 }
 
 #score {

@@ -429,7 +429,8 @@ function gameOver(winner) {
     
     if (winner === 'player') {
         //Start a new round
-        
+        setNewIntervals(moveInterval - 50, shootInterval - 100);
+
     }
     //if winner = player
     if (winner === 'invaders') {
