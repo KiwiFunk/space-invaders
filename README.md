@@ -10,7 +10,8 @@
 	<a href="#wireframes"><li>Wireframes</li></a>
 	<a href="#ux-user-experience"><li>User Experience</li></a>
 	<a href="#technologies-used"><li>Technologies Used</li></a>
-	<a href=""><li></li></a>
+	<a href="#testing"><li>Lighthouse Scores</li></a>
+    <a href="#credits"><li>Credits</li></a>
 </ul>
 
 ## About
