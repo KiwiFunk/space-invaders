@@ -428,7 +428,8 @@ function gameOver(winner) {
     gameArea.innerHTML = '';
     
     if (winner === 'player') {
-        alert('Congratulations! You have defeated the invaders!');
+        //Start a new round
+        
     }
     //if winner = player
     if (winner === 'invaders') {

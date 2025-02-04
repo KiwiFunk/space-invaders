@@ -1,6 +1,14 @@
 /* Google Font Import */
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap');
 
+/* Global Variables */
+:root {
+    --primary-font-color: #ffffff;
+    --menu-button-color: #D9A761;
+    --menu-button-hover-color: #492666;
+    
+}
+
 body {
     font-family: 'Orbitron', sans-serif;
     background-color: rgb(31, 31, 31);
@@ -223,7 +231,7 @@ body {
     border-bottom: 1px solid #e9ecef;
     padding-bottom: 0.75rem;
     margin-bottom: 1rem;
-    color: #e9ecef;
+    color: var(--primary-font-color)
 }
 
 .modal-header h2 {
@@ -235,7 +243,7 @@ body {
 .modal-body {
     font-size: 1.2rem;
     letter-spacing: 2px;
-    color: #e9ecef;
+    color: var(--primary-font-color)
 }
 
 .instructions li {
@@ -264,7 +272,7 @@ body {
 
 .return-button:hover,
 .return-button:focus {
-    background-color: #492666;
+    background-color:var(--menu-button-hover-color);
     color: white;
     outline: none;
 }
@@ -272,7 +280,7 @@ body {
 /* Modal Button Styles */
 .modal-button {
     font-family: 'Orbitron', sans-serif;
-    background-color: #D9A761;
+    background-color: var(--menu-button-color);
     color: black;
     border: none;
     padding: 10px 20px;
