@@ -61,11 +61,6 @@ body {
     background-color: #333333;
 }
 
-#retroButton.active {
-    background-color: purple;
-    color: white;
-}
-
 #tvImage,
 #scanlines {
     position: absolute;
@@ -237,22 +232,6 @@ body {
     letter-spacing: 3px;
 }
 
-.close-button {
-    color: #000;
-    font-size: 1.5rem;
-    font-weight: bold;
-    cursor: pointer;
-    border: none;
-    background: none;
-}
-
-.close-button:hover,
-.close-button:focus {
-    color: #dc3545; /* Bootstrap-like danger color */
-    text-decoration: none;
-    outline: none;
-}
-
 .modal-body {
     font-size: 1.2rem;
     letter-spacing: 2px;
@@ -271,6 +250,7 @@ body {
 }
 
 .return-button {
+    font-family: 'Orbitron', sans-serif;
     background-color: #D9A761;
     color: black;
     border: none;
@@ -284,6 +264,29 @@ body {
 
 .return-button:hover,
 .return-button:focus {
+    background-color: #492666;
+    color: white;
+    outline: none;
+}
+
+/* Modal Button Styles */
+.modal-button {
+    font-family: 'Orbitron', sans-serif;
+    background-color: #D9A761;
+    color: black;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: 400;
+    letter-spacing: 2px;
+    cursor: pointer;
+    border-radius: 0.25rem;
+    width: 400px;
+    height: 200px;
+}
+
+.modal-button:hover,
+.modal-button:focus {
     background-color: #492666;
     color: white;
     outline: none;
@@ -321,17 +324,23 @@ body {
 #pauseMenu .modal-body {
     font-size: 1.2rem;
     letter-spacing: 2px;
+    font-family: 'Orbitron', sans-serif;
     color: #e9ecef;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem; /* Add some space between the buttons */
 }
 
 #pauseMenu .modal-footer {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center; /* Center the resume button */
     padding-top: 1rem;
     border-top: 1px solid #e9ecef;
 }
 
 .resume-button {
+    font-family: 'Orbitron', sans-serif;
     background-color: #D9A761;
     color: black;
     border: none;
@@ -345,6 +354,27 @@ body {
 
 .resume-button:hover,
 .resume-button:focus {
+    background-color: #492666;
+    color: white;
+    outline: none;
+}
+
+.pause-button {
+    background-color: #D9A761;
+    color: black;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: 400;
+    letter-spacing: 2px;
+    cursor: pointer;
+    border-radius: 0.25rem;
+    font-family: 'Orbitron', sans-serif;
+    margin-left: 10px;
+}
+
+.pause-button:hover,
+.pause-button:focus {
     background-color: #492666;
     color: white;
     outline: none;
