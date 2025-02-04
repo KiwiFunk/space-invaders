@@ -687,12 +687,14 @@ function togglePauseMenu() {
         
         if (paused) {
             pauseStartTime = performance.now();
+            backgroundMusic.pause();
         } else {
             // Reset timing on unpause
             lastTime = performance.now();
             moveAccumulator = 0;
             shootAccumulator = 0;
             accumulatedTime = 0;
+            backgroundMusic.play();
         }
     }
 }
