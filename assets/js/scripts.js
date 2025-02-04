@@ -24,12 +24,14 @@ const shootSound = new Audio('assets/audio/laser.wav');
 const invaderHit = new Audio('assets/audio/explosion.wav'); 
 const invaderShoot = new Audio('assets/audio/invaderlaser.wav');
 const playerGotHit = new Audio('assets/audio/PlayerHit.wav');
+const gameOverSound = new Audio('assets/audio/game-over.wav');
 
 backgroundMusic.volume = 0.6;
 shootSound.volume = 0.2;
 invaderHit.volume = 0.2;
 invaderShoot.volume = 0.2;
 playerGotHit.volume = 0.2;
+gameOverSound.volume = 0.7;
 
 // Key Inputs
 const keys = {
@@ -500,6 +502,7 @@ function gameOver(winner) {
 
     if (winner === 'invaders') {
         gameHasEnded = true;
+        gameOverSound.play();
         const gameArea = document.getElementById('gameArea');
         gameArea.innerHTML = '';
         alert('Game Over! The invaders have reached the bottom.');
