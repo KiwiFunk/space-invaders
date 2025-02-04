@@ -323,7 +323,6 @@ function updateBullets() {
             const playerHit = player.getHit();
             updatePlayerLives();
             if (playerHit) {
-                gameHasEnded = true;
                 gameOver('invaders');
             }
             bullet.remove();
@@ -348,7 +347,6 @@ function updateBullets() {
                     } 
 
                     if (enemyInvaders.every(row => row.length === 0)) {
-                        gameHasEnded = true;
                         gameOver('player');
                     }
                     bullet.remove();
@@ -423,20 +421,43 @@ function handleInvaderShooting() {
 
 //GAME END FUNCTIONS
 function gameOver(winner) {
-    gameHasEnded = true;
-    //Clear Game Area on end state
-    gameArea.innerHTML = '';
-    
     if (winner === 'player') {
-        //Start a new round
-        setNewIntervals(moveInterval - 50, shootInterval - 100);
+        // Clear all invaders and bullets
+        enemyInvaders.forEach(row => {
+            row.forEach(invader => {
+                invader.despawn();
+            });
+        });
+        enemyInvaders = [];
+        activeBullets = [];
 
+        // Update intervals for increased difficulty
+        setNewIntervals(moveInterval - 100, shootInterval - 500);
+
+        // Reset accumulators
+        moveAccumulator = 0;
+        shootAccumulator = 0;
+
+        // Spawn new invaders for next round
+        const gameArea = document.getElementById('gameArea');
+        initInvaders(gameArea);
+
+        // Update round counter
+        const gameRound = document.getElementById('gameRound');
+        let currentRound = parseInt(gameRound.innerText.split(' ')[1]);
+        gameRound.innerText = `ROUND: ${currentRound + 1}`;
+
+        // Continue game loop
+        lastTime = performance.now();
+        requestAnimationFrame(gameLoop);
     }
-    //if winner = player
+
     if (winner === 'invaders') {
+        gameHasEnded = true;
+        const gameArea = document.getElementById('gameArea');
+        gameArea.innerHTML = '';
         alert('Game Over! The invaders have reached the bottom.');
     }
-    
 }
 
 //Reset the game state
@@ -473,6 +494,9 @@ function resetGame() {
         bullet.remove();
     });
     activeBullets = [];
+
+    const gameRound = document.getElementById('gameRound');
+    gameRound.innerText = `ROUND: ${1}`;
 
     
     const playerScore = document.getElementById('score');   //Reset current score
