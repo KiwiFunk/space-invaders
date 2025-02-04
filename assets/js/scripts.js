@@ -621,7 +621,7 @@ function setupMenuAndModals() {
     });
 
     // Resume button
-    document.getElementById('resume-button').addEventListener('click', function() {
+    document.getElementById('resumeButton').addEventListener('click', function() {
         togglePauseMenu();
     });
 
