@@ -2,6 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap');
 
 body {
+    font-family: 'Orbitron', sans-serif;
     background-color: rgb(31, 31, 31);
     margin: 0;
     padding: 0;
@@ -12,6 +13,7 @@ body {
     height: 100vh;
     width: 100vw;
     background-image: url('../images/bg.webp');
+    background-color: #470964;
 }
 
 /* Global Styles */
@@ -32,33 +34,31 @@ body {
     background-position: center;
 }
 
-#startButton,
-#retroButton,
-#instructionsButton {
+.menu-buttons {
     position: absolute;
     top: 50%;
     left: 50%;
-    height: 3rem;
-    width: 15rem;
     transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    gap: 3.5rem;
+    z-index: 10;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn {
+    font-family: 'Orbitron', sans-serif;
+    width: 15rem;
+    height: 3rem;
     border-radius: 10px;
     border-color: white;
     padding: 10px 20px;
     font-size: 20px;
     cursor: pointer;
-    z-index: 10;
-    font-family: 'Orbitron', sans-serif;
     font-weight: 500;
     color: white;
     background-color: #333333;
-}
-
-#retroButton {
-    top: 60%; /* Position below the start button */
-}
-
-#instructionsButton {
-    top: 70%; /* Position below the retro button */
 }
 
 #retroButton.active {
@@ -142,10 +142,6 @@ body {
     height: auto;
     animation: movePlayer 5s infinite alternate ease-in-out;
 }
-.hidden {
-    opacity: 0;
-    pointer-events: none;
-}
 
 /* Sprites */
 .invaderBasic {
@@ -171,7 +167,7 @@ body {
 
 /* Game Area */
 #gameArea {
-    position: relative;
+    position: absolute;
     width: 80%;
     height: 90%;
     max-width: 1200px;
@@ -216,7 +212,6 @@ body {
 .modal-header h2 {
     margin: 0;
     font-size: 1.5rem;
-    font-family: 'Orbitron', sans-serif;
     letter-spacing: 3px;
 }
 
@@ -240,7 +235,6 @@ body {
     font-size: 1.2rem;
     letter-spacing: 2px;
     color: #e9ecef;
-    font-family: 'Orbitron', sans-serif;
 }
 
 .instructions li {
@@ -264,7 +258,6 @@ body {
     letter-spacing: 2px;
     cursor: pointer;
     border-radius: 0.25rem;
-    font-family: 'Orbitron', sans-serif;
 }
 
 .return-button:hover,
@@ -300,7 +293,6 @@ body {
 #pauseMenu .modal-header h2 {
     margin: 0;
     font-size: 1.5rem;
-    font-family: 'Orbitron', sans-serif;
     letter-spacing: 3px;
 }
 
@@ -308,7 +300,6 @@ body {
     font-size: 1.2rem;
     letter-spacing: 2px;
     color: #e9ecef;
-    font-family: 'Orbitron', sans-serif;
 }
 
 #pauseMenu .modal-footer {
@@ -328,7 +319,6 @@ body {
     letter-spacing: 2px;
     cursor: pointer;
     border-radius: 0.25rem;
-    font-family: 'Orbitron', sans-serif;
 }
 
 .resume-button:hover,

@@ -63,91 +63,71 @@ document.addEventListener('DOMContentLoaded', function() {
         scanlines.classList.toggle('hidden');
     });
 
-    // Init modals (Instructions and Pause Menu)
-    setupMenuAndModals();
+    setupMenuAndModals();                                       // Init modals (Instructions and Pause Menu)
 
-    // PLAYER INPUTS FOR GAME FUNCTIONS
     document.addEventListener('keydown', function (e) {
 
-        if (e.key === 'ArrowLeft' || e.key === 'a') {
-            if (player.xpos > 0) {  // Ensure player doesn't move out of bounds
-                player.move(-10, 0);  // Move left
-            }
+        if (e.key === 'ArrowLeft' || e.key === 'a') {           // Move player left and make sure it stays within bounds
+            if (player.xpos > 0) player.move(-10, 0); 
         }
 
-        if (e.key === 'ArrowRight' || e.key === 'd') {
-            if (player.xpos < gameArea.clientWidth - player.element.offsetWidth) {  // Ensure player stays within bounds
-                player.move(10, 0);  // Move right
-            }
+        if (e.key === 'ArrowRight' || e.key === 'd') {          // Move player right and make sure it stays within bounds
+            if (player.xpos < gameArea.clientWidth - player.element.offsetWidth) player.move(10, 0); 
         }
 
-        if (e.key === ' ' && !e.repeat) {
+        if (e.key === ' ' && !e.repeat) {                       // Add a bullet object to the activeBullets array
             const bullet = player.shoot();
             activeBullets.push(bullet);
         }
     });
-
 });
 
 //GAME LOOP
-
 let lastTime = 0;
 let deltaTime = 0;
 let accumulatedTime = 0;
 
 const FPS = 60;
-const frameTime = 1000 / FPS;                   // Target time per frame in ms
+const frameTime = 1000 / FPS;                           // Target time per frame in ms
 
 let moveAccumulator = 0;
 let shootAccumulator = 0;
 
-let moveInterval = 500;                         // Invader move speed
-let shootInterval = 1500;                       // Invader shoot speed
+let moveInterval = 500;                                 // Invader move speed
+let shootInterval = 1500;                               // Invader shoot speed
 
 function gameLoop(timestamp) {
     if (gameHasEnded) return;
     const gameArea = document.getElementById('gameArea');
 
-    if (!gameStarted) {
+    if (!gameStarted) {                                 // If the game hasnt been started yet, start it and spawn player and invaders       
         gameStarted = true;
         spawnPlayer(gameArea);
         initInvaders(gameArea);
     }
 
-    // Calculate the delta time, the difference from the previous frame
-    deltaTime = timestamp - lastTime;
+    deltaTime = timestamp - lastTime;                   // Calculate the delta time (difference from the previous frame)
     lastTime = timestamp;
+    
+    accumulatedTime += deltaTime;                       // Accumulate the time passed for frame-based processing
 
-    // Accumulate the time passed for frame-based processing
-    accumulatedTime += deltaTime;
-
-    // If enough time has passed to process a new frame, continue
-    if (accumulatedTime >= frameTime) {
-        // Reset accumulated time after processing frame logic
-        accumulatedTime -= frameTime;
-
-        // Time step accumulators for movement and shooting
-        moveAccumulator += deltaTime;
+    if (accumulatedTime >= frameTime) {                 // If enough time has passed to process a new frame, continue
+       
+        accumulatedTime -= frameTime;                   // Reset accumulated time after processing frame logic
+        moveAccumulator += deltaTime;                   // Time step accumulators for movement and shooting
         shootAccumulator += deltaTime;
 
-        // Update game state using fixed time steps
-        // Update movement logic
-        while (moveAccumulator >= moveInterval) {
+        while (moveAccumulator >= moveInterval) {       // Update game logic
             moveInvaders();
             moveAccumulator -= moveInterval;
         }
-
-        // Update shooting logic
         while (shootAccumulator >= shootInterval) {
             handleInvaderShooting();
             shootAccumulator -= shootInterval;
         }
-
         updateBullets();
     }
-
-    // Request next frame
-    requestAnimationFrame(gameLoop);
+    requestAnimationFrame(gameLoop);                    // Request next frame
 }
 
 // Change intervals to increase difficulty on new round
@@ -156,11 +136,11 @@ function setNewIntervals(newMoveInterval, newShootInterval) {
     shootInterval = newShootInterval;
 }
 
-
-//ASSET SPAWNING
+//ASSET SPAWNING FUNCTIONS
 
 function spawnPlayer(gameArea) {
-    // Get player width and height (using a temporary element for measurement)
+
+    // Calculate width and height of player sprite. (PLEASE TELL ME THERE IS A BETTER WAY)
     const tempPlayer = document.createElement('div');
     tempPlayer.classList.add('player');
     gameArea.appendChild(tempPlayer);
@@ -171,9 +151,8 @@ function spawnPlayer(gameArea) {
     const xpos = gameArea.clientWidth / 2 - playerWidth / 2;
     const ypos = gameArea.clientHeight - playerHeight;
     
-    // Create a new player instance and spawn it
-    player = new Player(3, xpos, ypos);     // Store the player instance in the 'player' variable
-    player.spawn();                         // Append the player element to the DOM
+    player = new Player(3, xpos, ypos);                 // Create and store an instance of the player class
+    player.spawn();                                     // Append the player object to the DOM
 }
 
 
@@ -328,11 +307,11 @@ function frontInvaders() {
 
 function handleInvaderShooting() {
     
-    frontInvaders();                                                    // Check which invaders can shoot
+    frontInvaders();                                                        // Check which invaders can shoot
 
     enemyInvaders.forEach(column => {
         column.forEach(invader => {
-            if (invader && invader.canShoot && Math.random() < 0.15) {  // 15% chance to shoot
+            if (invader && invader.canShoot && Math.random() < 0.15) {      // 15% chance to shoot
                 const bullet = invader.shoot();
                 if (bullet) {
                     activeBullets.push(bullet);
