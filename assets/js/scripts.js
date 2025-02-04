@@ -122,6 +122,22 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    // Volume sliders
+    const musicVolumeSlider = document.getElementById('musicVolume');
+    const effectsVolumeSlider = document.getElementById('effectsVolume');
+
+    musicVolumeSlider.addEventListener('input', function () {
+        const volume = musicVolumeSlider.value / 100;
+        backgroundMusic.volume = volume;
+    });
+
+    effectsVolumeSlider.addEventListener('input', function () {
+        const volume = effectsVolumeSlider.value / 100;
+        shootSound.volume = volume;
+        invaderHit.volume = volume;
+        invaderShoot.volume = volume;
+    });
+
 });
 
 
