@@ -615,10 +615,18 @@ function setupMenuAndModals() {
 
     // Pause menu toggle with ESC key
     document.addEventListener('keydown', function(event) {
+        const settingsMenu = document.getElementById('settingsMenu');
+        const instructionsPauseMenu = document.getElementById('instructionsPauseMenu');
         if (event.key === 'Escape' && hero.classList.contains('hidden')) {
             togglePauseMenu();
+            if (!settingsMenu.classList.contains('hidden') || !instructionsPauseMenu.classList.contains('hidden')) {
+                settingsMenu.classList.add('hidden');
+                instructionsPauseMenu.classList.add('hidden');
+                pauseMenu.classList.add('hidden');
+            }
         }
     });
+
 
     // Resume button
     document.getElementById('resumeButton').addEventListener('click', function() {
