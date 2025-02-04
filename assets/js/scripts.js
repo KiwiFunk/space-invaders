@@ -165,7 +165,7 @@ function gameLoop(timestamp) {
         gameStarted = true;
         spawnPlayer(gameArea);
         initInvaders(gameArea);
-        toggleGameOverlay()
+        toggleGameOverlay();
         updatePlayerLives();
     }
 
@@ -434,6 +434,36 @@ function gameOver(winner) {
     
 }
 
+// Add this function to reset the game state
+function resetGame() {
+    // Reset game state variables
+    gameStarted = false;
+    gameHasEnded = false;
+    direction = 1;
+    moveAccumulator = 0;
+    shootAccumulator = 0;
+    moveInterval = 300;
+    shootInterval = 1500;
+
+    // Clear game area
+    const gameArea = document.getElementById('gameArea');
+    gameArea.innerHTML = '';
+
+    // Reset score and lives
+    const playerScore = document.getElementById('score');
+    playerScore.innerText = 'SCORE: 000000';
+    const playerLives = document.getElementById('lives');
+    playerLives.innerText = 'LIVES: 3';
+
+    // Stop background music
+    backgroundMusic.pause();
+    backgroundMusic.currentTime = 0;
+
+    // Restart the game
+    lastTime = performance.now();
+    requestAnimationFrame(gameLoop);
+}
+
 //MENU FUNCTIONS
 
 //Visual Menu
@@ -547,5 +577,11 @@ function setupMenuAndModals() {
             instructionsPauseMenu.classList.add('hidden');
             pauseMenu.classList.remove('hidden');
         }
+    });
+
+    // Retry button
+    document.getElementById('retryButton').addEventListener('click', function() {
+        resetGame();
+        pauseMenu.classList.add('hidden');
     });
 }
