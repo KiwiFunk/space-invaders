@@ -389,6 +389,63 @@ body {
     outline: none;
 }
 
+/* Volume Control Styles */
+.volume-control {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.volume-control label {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    color: var(--primary-font-color);
+}
+
+.volume-control input[type="range"] {
+    width: 100px; /* Adjust the width as needed */
+    height: 100px; /* Make the slider square */
+    -webkit-appearance: none;
+    appearance: none;
+    background: #333333;
+    cursor: pointer;
+    border-radius: 0.25rem;
+}
+
+.volume-control input[type="range"]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 10px; /* Adjust the height as needed */
+    background: #666666; /* Track color */
+    border-radius: 5px;
+}
+
+.volume-control input[type="range"]::-moz-range-track {
+    width: 100%;
+    height: 10px; /* Adjust the height as needed */
+    background: #666666; /* Track color */
+    border-radius: 5px;
+}
+
+.volume-control input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: var(--menu-button-color);
+    border-radius: 50%;
+    cursor: pointer;
+    margin-top: -5px; /* Adjust to align thumb with track */
+}
+
+.volume-control input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: var(--menu-button-color);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
 /* Keyframes for animation */
 @keyframes movePlayer {
     from {
