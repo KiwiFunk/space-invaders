@@ -93,7 +93,7 @@ const frameTime = 1000 / FPS;                           // Target time per frame
 let moveAccumulator = 0;
 let shootAccumulator = 0;
 
-let moveInterval = 500;                                 // Invader move speed
+let moveInterval = 400;                                 // Invader move speed
 let shootInterval = 1500;                               // Invader shoot speed
 
 function gameLoop(timestamp) {
@@ -104,6 +104,8 @@ function gameLoop(timestamp) {
         gameStarted = true;
         spawnPlayer(gameArea);
         initInvaders(gameArea);
+        toggleGameOverlay()
+        updatePlayerLives();
     }
 
     deltaTime = timestamp - lastTime;                   // Calculate the delta time (difference from the previous frame)
@@ -134,6 +136,16 @@ function gameLoop(timestamp) {
 function setNewIntervals(newMoveInterval, newShootInterval) {
     moveInterval = newMoveInterval;
     shootInterval = newShootInterval;
+}
+
+function toggleGameOverlay() {
+    const overlay = document.getElementsByClassName('gameOverlay')[0];
+    overlay.classList.toggle('hidden');
+}
+
+function updatePlayerLives() {
+    const playerLives = document.getElementById('lives');
+    playerLives.innerText = `LIVES: ${player.lives}`;
 }
 
 //ASSET SPAWNING FUNCTIONS
@@ -229,6 +241,7 @@ function updateBullets() {
 
         if (bullet.direction === 1 && checkCollision(bullet, player)) { 
             const playerHit = player.getHit();
+            updatePlayerLives();
             if (playerHit) {
                 gameHasEnded = true;
                 gameOver('invaders');
