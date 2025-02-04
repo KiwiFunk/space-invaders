@@ -1,6 +1,14 @@
 /* Google Font Import */
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap');
 
+/* Custom Font Import */    
+@font-face {
+    font-family: 'Sprint2';
+    src: url(../fonts/sprint-2.otf) format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 /* Global Variables */
 :root {
     --primary-font-color: #ffffff;
@@ -264,7 +272,7 @@ body {
 }
 
 .return-button {
-    font-family: 'Orbitron', sans-serif;
+    font-family: '8-Bit-Hud', 'Orbitron', sans-serif;
     background-color: #D9A761;
     color: black;
     border: none;
@@ -475,6 +483,76 @@ body {
     cursor: pointer;
 }
 
+/* GAME OVER SCREEN */
+
+#GameOverScreen {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+
+    position: absolute;
+
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Slight transparency for debugging */
+    z-index: 9999; /* High z-index to ensure it appears on top */
+    color: var(--primary-font-color);
+    font-size: 1.5em;
+}
+
+#GameOverScreen h1 {
+    font-size: 3.5rem;
+    color: white;
+    margin-bottom: 1rem;
+    font-family: 'Sprint2', 'Orbitron', sans-serif;
+    letter-spacing: 3px;
+}
+
+#highscores {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+#highscores h2 {
+    font-size: 2rem;
+    text-transform: uppercase;
+    color: white;
+    margin: 4rem 0 5px 0;                    
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 1px;
+}
+
+#highscores ol {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 10px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#highscores li {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 10rem;
+}
+
+.highscoreName {
+    flex-grow: 1;
+    text-align: left;
+}
+
+.highscoreScore {
+    flex-grow: 1;
+    text-align: right;
+}
 /* Keyframes for animation */
 @keyframes movePlayer {
     from {

@@ -503,6 +503,8 @@ function gameOver(winner) {
         const gameArea = document.getElementById('gameArea');
         gameArea.innerHTML = '';
         alert('Game Over! The invaders have reached the bottom.');
+        const gameOverScreen = document.getElementById('GameOverScreen');
+        gameOverScreen.classList.remove('hidden');
     }
 }
 
