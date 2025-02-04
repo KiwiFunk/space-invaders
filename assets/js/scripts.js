@@ -154,7 +154,7 @@ const frameTime = 1000 / FPS;                           // Target time per frame
 let moveAccumulator = 0;
 let shootAccumulator = 0;
 
-let moveInterval = 300;                                 // Invader move speed
+let moveInterval = 250;                                 // Invader move speed
 let shootInterval = 1500;                               // Invader shoot speed
 
 function gameLoop(timestamp) {
@@ -270,7 +270,8 @@ function moveInvaders(moveDistance = 5) {
 
     const gameArea = document.getElementById('gameArea');
     const gameAreaWidth = gameArea.clientWidth;
-    const invaderWidth = enemyInvaders[0][0].element.offsetWidth;
+    // Calculate width of an invader using any reamining invader object
+    const invaderWidth = enemyInvaders.flat().find(invader => invader !== undefined).element.offsetWidth;
 
     let edgeReached = false;
     // Check if any invader has reached the edge of the game area
