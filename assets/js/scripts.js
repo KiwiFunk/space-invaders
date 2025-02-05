@@ -170,6 +170,8 @@ document.addEventListener('DOMContentLoaded', function () {
         muteEffectsButton.textContent = isMuted ? 'Mute' : 'Unmute';
     });
 
+    initializeHighScores();                                     // Initialize high scores
+
 });
 
 
@@ -519,8 +521,14 @@ function gameOver(winner) {
     if (winner === 'invaders') {
         gameHasEnded = true;
         gameOverSound.play();
+
+        // Get final score before clearing game area
+        const currentScore = parseInt(document.getElementById('score').innerText.split(' ')[1]);
+
         const gameArea = document.getElementById('gameArea');
         gameArea.innerHTML = '';
+        
+        checkHighScore(currentScore);
         const gameOverScreen = document.getElementById('GameOverScreen');
         gameOverScreen.classList.remove('hidden');
         gameOverButtons();
@@ -863,4 +871,62 @@ function clearGameObjects() {
 
 function showMainMenu() {
     document.querySelector('.hero').classList.remove('hidden');
+}
+
+// High Score Management
+const HIGH_SCORES_KEY = 'spaceInvadersHighScores';
+const MAX_HIGH_SCORES = 5;
+
+function initializeHighScores() {
+    // Check if high scores exist in localStorage
+    if (!localStorage.getItem(HIGH_SCORES_KEY)) {
+        // Default high scores
+        const defaultScores = [
+            { name: 'V', score: 60000 },
+            { name: 'B4NDIT', score: 47900 },
+            { name: 'RAZOR', score: 18400 },
+            { name: 'KENJI', score: 12600 },
+            { name: 'ROSCOE', score: 700 }
+        ];
+        localStorage.setItem(HIGH_SCORES_KEY, JSON.stringify(defaultScores));
+    }
+    updateHighScoreDisplay();
+}
+
+function checkHighScore(currentScore) {
+    const highScores = JSON.parse(localStorage.getItem(HIGH_SCORES_KEY));
+    const lowestScore = highScores[highScores.length - 1].score;
+
+    if (currentScore > lowestScore) {
+        const playerName = prompt('New High Score! Enter your name (max 6 chars):');
+        if (playerName) {
+            addHighScore({
+                name: playerName.slice(0, 6).toUpperCase(),
+                score: currentScore
+            });
+            return true;
+        }
+    }
+    return false;
+}
+
+function addHighScore(newScore) {
+    const highScores = JSON.parse(localStorage.getItem(HIGH_SCORES_KEY));
+    highScores.push(newScore);
+    highScores.sort((a, b) => b.score - a.score);
+    highScores.splice(MAX_HIGH_SCORES); // Keep only top 5
+    localStorage.setItem(HIGH_SCORES_KEY, JSON.stringify(highScores));
+    updateHighScoreDisplay();
+}
+
+function updateHighScoreDisplay() {
+    const highScoreList = document.getElementById('highscoreList');
+    const highScores = JSON.parse(localStorage.getItem(HIGH_SCORES_KEY));
+    
+    highScoreList.innerHTML = highScores.map(score => `
+        <li>
+            <span class="highscoreName">${score.name}</span>
+            <span class="highscoreScore">${score.score.toString().padStart(6, '0')}</span>
+        </li>
+    `).join('');
 }
