@@ -477,6 +477,12 @@ body {
     letter-spacing: 3px;
 }
 
+#GameOverScreen img {
+    max-width: 700px;
+    width: 100%;
+    height: auto;
+}
+
 #highscores {
     display: flex;
     flex-flow: column nowrap;
