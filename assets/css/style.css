@@ -242,13 +242,6 @@ body {
     flex-shrink: 1;
 }
 
-#score {
-}
-
-#lives {
-
-}
-
 /* Modal Styles */
 .modal {
     display: block;
@@ -464,10 +457,6 @@ body {
     color: var(--primary-font-color);
     font-size: 1.5em;
 }
-.game-over {
-    width: 90%;
-    height: 30%;
-}
 
 #GameOverScreen .btn {
     margin: 10px 0;
@@ -644,3 +633,40 @@ body {
 
 }
 
+/* GitHub Contributors */
+.github-contributors {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.contributor a{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+}
+
+.github-icon {
+    width: 30px;
+    height: 30px;
+}
+
+.contributor-label {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1rem;
+    color: var(--primary-font-color);
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 600px) {
+    .github-icon {
+        width: 25px;
+        height: 25px;
+    }
+
+    .contributor-label {
+        font-size: 0.8rem;
+    }
+}
