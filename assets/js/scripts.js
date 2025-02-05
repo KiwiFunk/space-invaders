@@ -666,6 +666,7 @@ function setupMenuAndModals() {
 
     // Instructions button in main menu
     document.getElementById('instructionsButton').addEventListener('click', function() {
+        updateInstructionsText();
         instructionsModal.classList.remove('hidden');
     });
 
@@ -730,6 +731,7 @@ function setupMenuAndModals() {
 
     // Instructions button in pause menu
     document.getElementById('pauseInstructionsButton').addEventListener('click', function() {
+        updateInstructionsText();
         pauseMenu.classList.add('hidden');
         instructionsPauseMenu.classList.remove('hidden');
     });
@@ -752,6 +754,26 @@ function setupMenuAndModals() {
     document.getElementById('retryButton').addEventListener('click', function() {
         resetGame();
         pauseMenu.classList.add('hidden');
+    });
+}
+
+function updateInstructionsText() {
+    const instructionsList = document.querySelectorAll('.instructions');
+    const isMobile = window.innerWidth <= 768; // Adjust breakpoint as needed
+
+    instructionsList.forEach(instructions => {
+        instructions.innerHTML = isMobile ? `
+            <li>Destroy enemies by using the on-screen joystick to move.</li>
+            <li>Use the on-screen fire button to shoot.</li>
+            <li><u>Stay alive</u> and <u>defend earth!</u></li>
+        ` :
+        // Update instructions text for mobile devices
+        `
+            <li>Destroy enemies by using <b>Left</b> and <b>Right</b> or the <b>A</b> and <b>D</b> keys to move.</li>
+            <li>Use the <b>Spacebar</b> to shoot.</li>
+            <li><u>Stay alive</u> and <u>defend earth!</u></li>
+        `; 
+        // Update instructions text for desktop devices
     });
 }
 
@@ -844,4 +866,3 @@ function mainMenuReturn() {
         const playerScore = document.getElementById('score');   //Reset current score
         playerScore.innerText = 'SCORE: 000000';
 }
-
