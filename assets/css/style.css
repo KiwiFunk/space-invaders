@@ -218,7 +218,7 @@ body {
 
 .gameOverlay {
     position: absolute;
-    width: 100%;
+    width: 90%;
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-around;
@@ -228,6 +228,7 @@ body {
     color: #ffffff;
     font-size: 1.2rem;
     max-width: 1200px;
+    flex-shrink: 1;
 }
 
 #score {
@@ -510,17 +511,6 @@ body {
     text-align: right;
 }
 
-
-/* Keyframes for animation */
-@keyframes movePlayer {
-    from {
-        left: 15%;
-    }
-    to {
-        left: calc(100% - 15%);
-    }
-}
-
 /* Touch Controls */
 #touchControls {
     position: absolute;
@@ -554,4 +544,22 @@ body {
     position: absolute;
     bottom: 20px;
     right: 20px;
+}
+
+/* Keyframes for animation */
+@keyframes movePlayer {
+    from {
+        left: 15%;
+    }
+    to {
+        left: calc(100% - 15%);
+    }
+}
+
+/* Media Queries */
+@media screen and (max-width: 600px) {
+    .gameOverlay {
+        font-size: 0.8rem;
+    }
+
 }
