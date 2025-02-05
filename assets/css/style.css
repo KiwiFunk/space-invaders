@@ -242,13 +242,6 @@ body {
     flex-shrink: 1;
 }
 
-#score {
-}
-
-#lives {
-
-}
-
 /* Modal Styles */
 .modal {
     display: block;
