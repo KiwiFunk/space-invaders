@@ -80,6 +80,11 @@ body {
 }
 
 /* Landing page */
+.logo {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 2rem; /* Add some space below the logo */
+}
 .hero {
     position: relative;
     width: 100%;
@@ -159,7 +164,7 @@ body {
 }
 
 #layer4 {
-    transform: translateZ(-1px) scale(9);
+    transform: translateZ(-1px) scale(1.5);
     left: 70%;
     top: 83%;
 }
@@ -505,11 +510,6 @@ body {
     text-align: right;
 }
 
-.logo {
-    max-width: 100%;
-    height: auto;
-    margin-bottom: 2rem; /* Add some space below the logo */
-}
 
 /* Keyframes for animation */
 @keyframes movePlayer {
