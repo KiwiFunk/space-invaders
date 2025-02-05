@@ -63,9 +63,17 @@ After generating the <a href="#wireframes">wireframes</a> we set about to create
 
 <img src="wireframes/desktop_lighthouse.png" alt="Desktop Lighthouse Score" style="width: 649px; height: 784px;"> <img src="wireframes/mobile_lighthouse.png" alt="Mobile Lighthouse Score" style="width: 649px; height: 784px;">
 
+# Validation
+
+<img src="wireframes/html_validator.png" alt="HTML Validation" style="width: 440; height: 370px;">
+<img src="wireframes/css_validation.png" alt="CSS Validation" style="width: 440; height: 370px;">
+
+We used W3C to validate the HTML and CSS. The scores reflect what was intended for our project. As there was no need for a heading in the gameArea or effects section, they were left in an as-is state.
+
 ## Credits
 
-<a href="">Google Fonts</a>
+<a href="https://fonts.google.com/">Google Fonts</a>
+<a href="https://validator.w3.org/">W3C Validation</a>
 
 ## AI Usage
 
