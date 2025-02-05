@@ -504,6 +504,13 @@ body {
     flex-grow: 1;
     text-align: right;
 }
+
+.logo {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 2rem; /* Add some space below the logo */
+}
+
 /* Keyframes for animation */
 @keyframes movePlayer {
     from {
