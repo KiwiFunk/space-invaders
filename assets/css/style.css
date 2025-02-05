@@ -520,3 +520,38 @@ body {
         left: calc(100% - 15%);
     }
 }
+
+/* Touch Controls */
+#touchControls {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none; /* Ensure touch controls don't interfere with other elements */
+}
+
+.control {
+    width: 60px;
+    height: 60px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    pointer-events: auto; /* Enable touch events */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+}
+
+#joystick {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+}
+
+#fireButton {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+}
