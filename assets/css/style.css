@@ -192,6 +192,13 @@ body {
     position: absolute;
 }
 
+.yellow {
+    background-image: url('../images/yellow_a.webp');
+    width: 50px; /* Adjusted for better game scale */
+    height: 50px; 
+    position: absolute;
+}
+
 .player {
     background-image: url('../images/player.webp');
     width: 50px; 

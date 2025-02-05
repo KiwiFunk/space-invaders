@@ -40,6 +40,9 @@ const keys = {
     space: false
 };
 
+let animationFrameId = null;
+
+
 //Adjust player speed
 const PLAYER_SPEED = 5;
 
@@ -167,63 +170,6 @@ document.addEventListener('DOMContentLoaded', function () {
         muteEffectsButton.textContent = isMuted ? 'Mute' : 'Unmute';
     });
 
-    // Show touch controls on mobile/tablet
-    function showTouchControls() {
-        const touchControls = document.getElementById('touchControls');
-        if (window.innerWidth <= 768) { // Adjust breakpoint as needed
-            touchControls.classList.remove('hidden');
-        } else {
-            touchControls.classList.add('hidden');
-        }
-    }
-
-    window.addEventListener('resize', showTouchControls);
-    showTouchControls();
-
-    // Touch control logic
-    const joystick = document.getElementById('joystick');
-    const fireButton = document.getElementById('fireButton');
-
-    let joystickActive = false;
-    let joystickStartX = 0;
-    let joystickCurrentX = 0;
-
-    joystick.addEventListener('touchstart', function (e) {
-        joystickActive = true;
-        joystickStartX = e.touches[0].clientX;
-        joystickCurrentX = joystickStartX;
-    });
-
-    joystick.addEventListener('touchmove', function (e) {
-        if (!joystickActive) return;
-        joystickCurrentX = e.touches[0].clientX;
-        const deltaX = joystickCurrentX - joystickStartX;
-        if (deltaX < -10) {
-            keys.left = true;
-            keys.right = false;
-        } else if (deltaX > 10) {
-            keys.left = false;
-            keys.right = true;
-        } else {
-            keys.left = false;
-            keys.right = false;
-        }
-    });
-
-    joystick.addEventListener('touchend', function () {
-        joystickActive = false;
-        keys.left = false;
-        keys.right = false;
-    });
-
-    fireButton.addEventListener('touchstart', function () {
-        keys.space = true;
-    });
-
-    fireButton.addEventListener('touchend', function () {
-        keys.space = false;
-    });
-
 });
 
 
@@ -262,6 +208,7 @@ let shootInterval = 1500;                                   // Invader shoot spe
 function gameLoop(timestamp) {
     if (gameHasEnded) return;                               // If the game has ended, stop the game loop
     const gameArea = document.getElementById('gameArea');
+    
 
     if (!gameStarted) {                                     // If the game hasnt been started yet, start it and spawn player and invaders       
         gameStarted = true;
@@ -299,7 +246,7 @@ function gameLoop(timestamp) {
         }
     }
 
-    requestAnimationFrame(gameLoop);                        // Request next frame
+    animationFrameId = requestAnimationFrame(gameLoop);                        // Request next frame
 }
 
 function setNewIntervals() {                               // Increase difficulty by decreasing intervals
@@ -366,8 +313,18 @@ function initInvaders(gameArea, rowLength = 4, maxColumns = 12) {
         for (let j = 0; j < rowLength; j++) {                       //How many rows of invaders
             const xpos = offsetX + (i * (invaderWidth + gap));
             const ypos = j * (invaderWidth + gap / 1.5);            // Adjust vertical spacing as needed
-            enemyInvaders[i][j] = new Invader('green', 100, xpos, ypos, 100);
-            enemyInvaders[i][j].spawn();
+
+            let spawnChance = Math.random();
+
+            if (gameRound > 2 && spawnChance < 0.1) {                // 10% chance to spawn a yellow invader
+                enemyInvaders[i][j] = new Invader('yellow', 100, xpos, ypos, 100);
+                enemyInvaders[i][j].spawn();
+            }
+
+            else {
+                enemyInvaders[i][j] = new Invader('green', 100, xpos, ypos, 100);
+                enemyInvaders[i][j].spawn();
+            }
         }
     }
 }
@@ -564,7 +521,6 @@ function gameOver(winner) {
         gameOverSound.play();
         const gameArea = document.getElementById('gameArea');
         gameArea.innerHTML = '';
-        alert('Game Over! The invaders have reached the bottom.');
         const gameOverScreen = document.getElementById('GameOverScreen');
         gameOverScreen.classList.remove('hidden');
         gameOverButtons();
@@ -577,7 +533,7 @@ function resetGame() {
     // Reset pause state
     paused = false;
     pauseStartTime = 0;
-    
+
     //Reset Variables
     gameStarted = false;
     gameHasEnded = false;
@@ -701,6 +657,13 @@ function setupMenuAndModals() {
         togglePauseMenu();
     });
 
+    // Main menu button
+    document.getElementById('menuMainButton').addEventListener('click', function() {
+        mainMenuReturn();
+        const pauseMenu = document.getElementById('pauseMenu');
+        pauseMenu.classList.add('hidden');
+    });
+
     // Close pause menu when clicking outside
     pauseMenu.addEventListener('click', function(event) {
         if (event.target === pauseMenu) {
@@ -794,54 +757,88 @@ function gameOverButtons() {
 }
 
 function mainMenuReturn() {
-    const gameOverScreen = document.getElementById('GameOverScreen');
-        const gameOverlay = document.querySelector('.gameOverlay');
-        gameOverScreen.classList.add('hidden');
-        document.querySelector('.hero').classList.remove('hidden');
 
-        gameOverlay.classList.add('hidden');
+    if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+    }
 
-        backgroundMusic.pause();
-        backgroundMusic.currentTime = 0; // Reset background music
-
-        //Basically the same as reset from here
-        //Reset Variables
-        gameStarted = false;
-        gameHasEnded = false;
-        moveAccumulator = 0;
-        shootAccumulator = 0;
-
-        //If reset is called, round 1 is started. Reset intervals and round count
-        moveInterval = 300;
-        shootInterval = 1500;
-        gameRound = 1;
-
-        // Clear game area
-        const gameArea = document.getElementById('gameArea');
-        gameArea.innerHTML = '';
-
-        // Clear all invaders, player, and bullets
-        enemyInvaders.forEach(row => {
-            row.forEach(invader => {
-                invader.despawn();
-            });
-        });
-        enemyInvaders = [];
-
-        if (player) {
-            player.despawn();
-            player = null;
-        }
-
-        activeBullets.forEach(bullet => {
-            bullet.remove();
-        });
-        activeBullets = [];
-
-        const gameRoundElement = document.getElementById('gameRound');
-        gameRoundElement.innerText = `ROUND: ${1}`;
-
-        const playerScore = document.getElementById('score');   //Reset current score
-        playerScore.innerText = 'SCORE: 000000';
+    // Reset UI elements
+    resetUIElements();
+    
+    // Reset game state
+    resetGameState();
+    
+    // Reset game objects
+    clearGameObjects();
+    
+    // Show main menu
+    showMainMenu();
 }
 
+function resetUIElements() {
+    // Hide all screens except main menu
+    const screens = {
+        gameOver: document.getElementById('GameOverScreen'),
+        overlay: document.querySelector('.gameOverlay'),
+        pauseMenu: document.getElementById('pauseMenu'),
+        settingsMenu: document.getElementById('settingsMenu'),
+        instructionsMenu: document.getElementById('instructionsPauseMenu')
+    };
+
+    Object.values(screens).forEach(screen => {
+        if (screen) screen.classList.add('hidden');
+    });
+
+    // Reset score and round displays
+    document.getElementById('score').innerText = 'SCORE: 000000';
+    document.getElementById('gameRound').innerText = 'ROUND: 1';
+}
+
+function resetGameState() {
+    // Reset game flags
+    gameStarted = false;
+    gameHasEnded = false;
+    paused = false;
+
+    // Reset timing variables
+    moveAccumulator = 0;
+    shootAccumulator = 0;
+    pauseStartTime = 0;
+    lastTime = 0;
+
+    // Reset game settings
+    moveInterval = 300;
+    shootInterval = 1500;
+    gameRound = 1;
+
+    // Reset audio
+    backgroundMusic.pause();
+    backgroundMusic.currentTime = 0;
+}
+
+function clearGameObjects() {
+    // Clear game area
+    const gameArea = document.getElementById('gameArea');
+    gameArea.innerHTML = '';
+
+    // Clear invaders
+    enemyInvaders.forEach(row => {
+        row.forEach(invader => invader.despawn());
+    });
+    enemyInvaders = [];
+
+    // Clear player
+    if (player) {
+        player.despawn();
+        player = null;
+    }
+
+    // Clear bullets
+    activeBullets.forEach(bullet => bullet.remove());
+    activeBullets = [];
+}
+
+function showMainMenu() {
+    document.querySelector('.hero').classList.remove('hidden');
+}
