@@ -57,6 +57,7 @@ After generating the <a href="#wireframes">wireframes</a> we set about to create
     <a href="https://code.visualstudio.com/"><li>Visual Studio Code (VSC)</li></a>
     <a href="https://balsamiq.com/"><li>Balsamiq</li></a>
     <a href="https://slack.com/intl/en-gb/"><li>Slack</li></a>
+    <a href="https://github.com/features/copilot"><li>GitHub Copilot</li></a>
 </ul>
 
 ## Testing
