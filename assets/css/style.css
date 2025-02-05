@@ -29,8 +29,12 @@ body {
     width: 100vw;
     /* Background Image and fallback color */
     background-image: url('../images/bg.webp');
+    background-size: cover;
+    background-position: center;
     background-color: #470964;
 }
+
+
 
 /* Global Styles */
 .hidden {
