@@ -778,11 +778,14 @@ function gameOverButtons() {
     const mainMenuButton = document.getElementById('mainMenuButtonGO');
 
     gameOverRetry.addEventListener('click', function () {
+        gameHasEnded = false;
         resetGame();
+        lastTime = performance.now(); // Reset timing
+        requestAnimationFrame(gameLoop); // Restart game loop
         const gameOverScreen = document.getElementById('GameOverScreen');
         gameOverScreen.classList.add('hidden');
     });
-
+    
     mainMenuButton.addEventListener('click', function () {
         mainMenuReturn();
     });
