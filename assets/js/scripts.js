@@ -7,7 +7,7 @@ let player;
 let enemyInvaders = [];
 let activeBullets = [];
 
-let direction = 1;          // 1 for right, -1 for left
+let direction = 1; // 1 for right, -1 for left
 
 //Game State Bools
 let gameStarted = false;
@@ -199,20 +199,20 @@ let deltaTime = 0;
 let accumulatedTime = 0;
 
 const FPS = 60;
-const frameTime = 1000 / FPS;                               // Target time per frame in ms
+const frameTime = 1000 / FPS; // Target time per frame in ms
 
 let moveAccumulator = 0;
 let shootAccumulator = 0;
 
-let moveInterval = 300;                                     // Invader move speed
-let shootInterval = 1500;                                   // Invader shoot speed
+let moveInterval = 300; // Invader move speed
+let shootInterval = 1500; // Invader shoot speed
 
 function gameLoop(timestamp) {
-    if (gameHasEnded) return;                               // If the game has ended, stop the game loop
+    if (gameHasEnded) return; // If the game has ended, stop the game loop
     const gameArea = document.getElementById('gameArea');
     
 
-    if (!gameStarted) {                                     // If the game hasnt been started yet, start it and spawn player and invaders       
+    if (!gameStarted) { // If the game hasnt been started yet, start it and spawn player and invaders       
         gameStarted = true;
         spawnPlayer(gameArea);
         initInvaders(gameArea);
@@ -222,21 +222,21 @@ function gameLoop(timestamp) {
         updatePlayerLives();
     }
 
-    if (!paused) {                                              // Only update the game state if not paused
-        const deltaTime = Math.min(timestamp - lastTime, 50)    // Calculate the delta time (difference from the previous frame) Cap to prevent large jumps.
+    if (!paused) { // Only update the game state if not paused
+        const deltaTime = Math.min(timestamp - lastTime, 50) // Calculate the delta time (difference from the previous frame) Cap to prevent large jumps.
         lastTime = timestamp;
         
-        accumulatedTime += deltaTime;                           // Accumulate the time passed for frame-based processing
+        accumulatedTime += deltaTime; // Accumulate the time passed for frame-based processing
 
-        if (accumulatedTime >= frameTime) {                     // If enough time has passed to process a new frame, continue
+        if (accumulatedTime >= frameTime) { // If enough time has passed to process a new frame, continue
            
-            accumulatedTime -= frameTime;                       // Reset accumulated time after processing frame logic
-            moveAccumulator += deltaTime;                       // Time step accumulators for movement and shooting
+            accumulatedTime -= frameTime; // Reset accumulated time after processing frame logic
+            moveAccumulator += deltaTime; // Time step accumulators for movement and shooting
             shootAccumulator += deltaTime;
 
-            updatePlayer();                                     // Update player movement        
+            updatePlayer(); // Update player movement        
 
-            while (moveAccumulator >= moveInterval) {           // Update game logic
+            while (moveAccumulator >= moveInterval) { // Update game logic
                 moveInvaders();
                 moveAccumulator -= moveInterval;
             }
@@ -248,19 +248,19 @@ function gameLoop(timestamp) {
         }
     }
 
-    animationFrameId = requestAnimationFrame(gameLoop);                        // Request next frame
+    animationFrameId = requestAnimationFrame(gameLoop); // Request next frame
 }
 
-function setNewIntervals() {                               // Increase difficulty by decreasing intervals
+function setNewIntervals() { // Increase difficulty by decreasing intervals
     moveInterval = Math.max(Math.ceil(moveInterval - 25), 50);
     shootInterval = Math.max(Math.ceil(shootInterval - 200), 200);
 }
 
 function playerShoot() {
-    shootSound.currentTime = 0;             // Reset the sound to the beginning
+    shootSound.currentTime = 0; // Reset the sound to the beginning
     shootSound.play();
-    const bullet = player.shoot();          // Create a bullet object
-    activeBullets.push(bullet);             // Append bullet object to the activeBullets array
+    const bullet = player.shoot(); // Create a bullet object
+    activeBullets.push(bullet); // Append bullet object to the activeBullets array
 }
 
 function toggleGameOverlay() {
@@ -297,28 +297,28 @@ function spawnPlayer(gameArea) {
     const xpos = gameArea.clientWidth / 2 - playerWidth / 2;
     const ypos = gameArea.clientHeight - playerHeight;
     
-    player = new Player(3, xpos, ypos);                 // Create and store an instance of the player class
-    player.spawn();                                     // Append the player object to the DOM
+    player = new Player(3, xpos, ypos); // Create and store an instance of the player class
+    player.spawn(); // Append the player object to the DOM
 }
 
 
 function initInvaders(gameArea, rowLength = 4, maxColumns = 12) {
     const gameAreaWidth = gameArea.clientWidth;
-    const invaderWidth = 50;    // Width of each invader
-    const gap = 35;             // Gap between each invaders
+    const invaderWidth = 50; // Width of each invader
+    const gap = 35; // Gap between each invaders
 
-    const columnLength = Math.min(Math.floor(gameAreaWidth / (invaderWidth + gap)), maxColumns);        // Limit to maxColumns
-    const offsetX = (gameAreaWidth - (columnLength * (invaderWidth + gap) - gap)) / 2;                  // Center the invaders
+    const columnLength = Math.min(Math.floor(gameAreaWidth / (invaderWidth + gap)), maxColumns); // Limit to maxColumns
+    const offsetX = (gameAreaWidth - (columnLength * (invaderWidth + gap) - gap)) / 2; // Center the invaders
 
-    for (let i = 0; i < columnLength; i++) {                        //How many columnts of invaders
+    for (let i = 0; i < columnLength; i++) { //How many columnts of invaders
         enemyInvaders[i] = [];
-        for (let j = 0; j < rowLength; j++) {                       //How many rows of invaders
+        for (let j = 0; j < rowLength; j++) { //How many rows of invaders
             const xpos = offsetX + (i * (invaderWidth + gap));
-            const ypos = j * (invaderWidth + gap / 1.5);            // Adjust vertical spacing as needed
+            const ypos = j * (invaderWidth + gap / 1.5); // Adjust vertical spacing as needed
 
             let spawnChance = Math.random();
 
-            if (gameRound > 2 && spawnChance < 0.1) {                // 10% chance to spawn a yellow invader
+            if (gameRound > 2 && spawnChance < 0.1) { // 10% chance to spawn a yellow invader
                 enemyInvaders[i][j] = new Invader('yellow', 100, xpos, ypos, 100);
                 enemyInvaders[i][j].spawn();
             }
@@ -374,6 +374,64 @@ function moveInvaders(moveDistance = 5) {
         });
     }
 }
+    // Show touch controls on mobile/tablet
+    function showTouchControls() {
+        const touchControls = document.getElementById('touchControls');
+        if (window.innerWidth <= 768) { // Adjust breakpoint as needed
+            touchControls.classList.remove('hidden');
+        } else {
+            touchControls.classList.add('hidden');
+        }
+    }
+
+    window.addEventListener('resize', showTouchControls);
+    showTouchControls();
+
+    // Touch control logic
+    const joystick = document.getElementById('joystick');
+    const fireButton = document.getElementById('fireButton');
+
+    let joystickActive = false;
+    let joystickStartX = 0;
+    let joystickCurrentX = 0;
+
+    joystick.addEventListener('touchstart', function (e) {
+        joystickActive = true;
+        joystickStartX = e.touches[0].clientX;
+        joystickCurrentX = joystickStartX;
+    });
+
+    joystick.addEventListener('touchmove', function (e) {
+        if (!joystickActive) return;
+        joystickCurrentX = e.touches[0].clientX;
+        const deltaX = joystickCurrentX - joystickStartX;
+        if (deltaX < -10) {
+            keys.left = true;
+            keys.right = false;
+        } else if (deltaX > 10) {
+            keys.left = false;
+            keys.right = true;
+        } else {
+            keys.left = false;
+            keys.right = false;
+        }
+    });
+
+    joystick.addEventListener('touchend', function () {
+        joystickActive = false;
+        keys.left = false;
+        keys.right = false;
+    });
+
+    fireButton.addEventListener('touchstart', function () {
+        keys.space = true;
+    });
+
+    fireButton.addEventListener('touchend', function () {
+        keys.space = false;
+    });
+
+
 
 //ATTACK FUNCTIONS
 
@@ -405,11 +463,11 @@ function updateBullets() {
             row.forEach((invader, col) => {
                 if (invader && checkCollision(bullet, invader)) {
                     const invaderDestroyed = invader.getHit(); 
-                    if (invaderDestroyed) {                             //If invader is destroyed
-                        updatePlayerScore(invader.scoreValue);          //Update player score
-                        invader.despawn();                              //Remove invader from DOM
-                        row.splice(col, 1);                             //Remove invader array entry
-                        invaderHit.play();                              //Play invader hit sound
+                    if (invaderDestroyed) { //If invader is destroyed
+                        updatePlayerScore(invader.scoreValue); //Update player score
+                        invader.despawn(); //Remove invader from DOM
+                        row.splice(col, 1); //Remove invader array entry
+                        invaderHit.play(); //Play invader hit sound
                     } 
 
                     if (enemyInvaders.every(row => row.length === 0)) {
@@ -461,19 +519,19 @@ function frontInvaders() {
     //Find the highest index for each column, set canShoot to true
     enemyInvaders.forEach(column => {
         if (column.length > 0) {
-            let index = column.length - 1;      //Arrays are zero indexed
+            let index = column.length - 1; //Arrays are zero indexed
             column[index].canShoot = true; 
         }
     });
 }
 
 function handleInvaderShooting() {
-    
-    frontInvaders();                                                        // Check which invaders can shoot
+    // Check which invaders can shoot
+    frontInvaders(); 
 
     enemyInvaders.forEach(column => {
         column.forEach(invader => {
-            if (invader && invader.canShoot && Math.random() < 0.15) {      // 15% chance to shoot
+            if (invader && invader.canShoot && Math.random() < 0.15) { // 15% chance to shoot
                 const bullet = invader.shoot();
                 invaderShoot.play();
                 if (bullet) {
@@ -579,13 +637,13 @@ function resetGame() {
     gameRoundElement.innerText = `ROUND: ${1}`;
 
     
-    const playerScore = document.getElementById('score');   //Reset current score
+    const playerScore = document.getElementById('score'); //Reset current score
     playerScore.innerText = 'SCORE: 000000';
 
-    backgroundMusic.currentTime = 0;                        // Reset background music
+    backgroundMusic.currentTime = 0; // Reset background music
     backgroundMusic.play();
 
-    lastTime = performance.now();                           // Restart the game
+    lastTime = performance.now(); // Restart the game
     requestAnimationFrame(gameLoop);
 }
 
