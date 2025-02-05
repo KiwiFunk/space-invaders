@@ -10,7 +10,7 @@
 <body>
 
     <section id="GameOverScreen" class="hidden">
-        <img src="assets/images/game-over.png" alt="Game Over">
+        <img class="game-over" src="assets/images/game-over.png" alt="Game Over">
         <p>Your score: <span id="finalScore">000000</span></p>
         <button class="btn" id="newGameButton">Retry</button>
         <button class="btn" id="mainMenuButtonGO">Main Menu</button>
@@ -175,6 +175,22 @@
             </div>
             <div class="modal-footer">
                 <button class="btn-alt" id="returnToPauseFromInstructionsButton">Return to Pause Menu</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Highscore Input Modal -->
+    <div id="highscoreModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>New High Score!</h2>
+            </div>
+            <div class="modal-body">
+                <p>Enter your name (max 6 chars):</p>
+                <input type="text" id="highscoreNameInput" maxlength="6" />
+            </div>
+            <div class="modal-footer">
+                <button class="btn-alt pause-menu-buttons" id="submitHighscoreButton">Submit</button>
             </div>
         </div>
     </div>
