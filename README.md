@@ -75,9 +75,11 @@ After generating the <a href="#wireframes">wireframes</a> we set about to create
 We used W3C to validate the HTML and CSS. The scores reflect what was intended for our project. As there was no need for a heading in the gameArea or effects section, they were left in an as-is state.
 
 ## Credits
-
-<a href="https://fonts.google.com/">Google Fonts</a>
-<a href="https://validator.w3.org/">W3C Validation</a>
+<ul>
+	<a href="https://fonts.google.com/"><li>Google Fonts</li></a>
+	<a href="https://validator.w3.org/"><li>W3C Validation</li></a>
+	<a href="https://github.com/features/copilot"><li>Github Copilot</li></a>
+</ul>
 
 ## AI Usage
 
