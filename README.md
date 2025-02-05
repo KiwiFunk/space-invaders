@@ -1,8 +1,8 @@
 ## Space Invaders
 
-<a href="https://github.com/Naxiris" target="_blank>![Static Badge](https://img.shields.io/badge/Naxiris-Contributor-blue?)</a> <a href="https://github.com/KiwiFunk" target="_blank>![Static Badge](https://img.shields.io/badge/KiwiFunk-Contributor-blue?)</a> <a href="https://github.com/KiwiFunk/space-invaders" target="_blank>![GitHub commit activity](https://img.shields.io/github/commit-activity/t/KiwiFunk/space-invaders)</a>
+<a href="https://github.com/Naxiris">![Static Badge](https://img.shields.io/badge/Naxiris-Contributor-blue?)</a> <a href="https://github.com/KiwiFunk">![Static Badge](https://img.shields.io/badge/KiwiFunk-Contributor-blue?)</a> <a href="https://github.com/KiwiFunk/space-invaders">![GitHub commit activity](https://img.shields.io/github/commit-activity/t/KiwiFunk/space-invaders)</a>
 
-<a href="https://kiwifunk.github.io/space-invaders/" target="_blank">![Static Badge](https://img.shields.io/badge/Live_Site!-green%20?link=https%3A%2F%2Fkiwifunk.github.io%2Fspace-invaders%2F)</a>
+<a href="https://kiwifunk.github.io/space-invaders/">![Static Badge](https://img.shields.io/badge/Live_Site!-green%20?link=https%3A%2F%2Fkiwifunk.github.io%2Fspace-invaders%2F)</a>
 
 ## Table of Contents
 <ul>
