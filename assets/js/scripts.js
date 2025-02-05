@@ -167,6 +167,63 @@ document.addEventListener('DOMContentLoaded', function () {
         muteEffectsButton.textContent = isMuted ? 'Mute' : 'Unmute';
     });
 
+    // Show touch controls on mobile/tablet
+    function showTouchControls() {
+        const touchControls = document.getElementById('touchControls');
+        if (window.innerWidth <= 768) { // Adjust breakpoint as needed
+            touchControls.classList.remove('hidden');
+        } else {
+            touchControls.classList.add('hidden');
+        }
+    }
+
+    window.addEventListener('resize', showTouchControls);
+    showTouchControls();
+
+    // Touch control logic
+    const joystick = document.getElementById('joystick');
+    const fireButton = document.getElementById('fireButton');
+
+    let joystickActive = false;
+    let joystickStartX = 0;
+    let joystickCurrentX = 0;
+
+    joystick.addEventListener('touchstart', function (e) {
+        joystickActive = true;
+        joystickStartX = e.touches[0].clientX;
+        joystickCurrentX = joystickStartX;
+    });
+
+    joystick.addEventListener('touchmove', function (e) {
+        if (!joystickActive) return;
+        joystickCurrentX = e.touches[0].clientX;
+        const deltaX = joystickCurrentX - joystickStartX;
+        if (deltaX < -10) {
+            keys.left = true;
+            keys.right = false;
+        } else if (deltaX > 10) {
+            keys.left = false;
+            keys.right = true;
+        } else {
+            keys.left = false;
+            keys.right = false;
+        }
+    });
+
+    joystick.addEventListener('touchend', function () {
+        joystickActive = false;
+        keys.left = false;
+        keys.right = false;
+    });
+
+    fireButton.addEventListener('touchstart', function () {
+        keys.space = true;
+    });
+
+    fireButton.addEventListener('touchend', function () {
+        keys.space = false;
+    });
+
 });
 
 
@@ -745,7 +802,7 @@ function mainMenuReturn() {
         gameOverlay.classList.add('hidden');
 
         backgroundMusic.pause();
-        backgroundMusic.currentTime = 0;                        // Reset background music
+        backgroundMusic.currentTime = 0; // Reset background music
 
         //Basically the same as reset from here
         //Reset Variables
@@ -787,3 +844,4 @@ function mainMenuReturn() {
         const playerScore = document.getElementById('score');   //Reset current score
         playerScore.innerText = 'SCORE: 000000';
 }
+
