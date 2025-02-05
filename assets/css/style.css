@@ -464,10 +464,6 @@ body {
     color: var(--primary-font-color);
     font-size: 1.5em;
 }
-.game-over {
-    width: 90%;
-    height: 30%;
-}
 
 #GameOverScreen .btn {
     margin: 10px 0;
