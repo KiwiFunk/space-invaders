@@ -61,7 +61,10 @@ After generating the <a href="#wireframes">wireframes</a> we set about to create
 
 ## Testing
 
-<img src="wireframes/desktop_lighthouse.png" alt="Desktop Lighthouse Score" style="width: 649px; height: 784px;"> <img src="wireframes/mobile_lighthouse.png" alt="Mobile Lighthouse Score" style="width: 649px; height: 784px;">
+<div style="display: flex; justify-content: space-between;">
+	<img src="wireframes/LighthouseDesktop.png" alt="Desktop Lighthouse Score" style="width: 49%;">
+	<img src="wireframes/LighthouseMobile.png" alt="Mobile Lighthouse Score" style="width: 49%;">
+</div>
 
 ## Credits
 
