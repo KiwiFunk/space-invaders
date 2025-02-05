@@ -641,10 +641,11 @@ body {
     gap: 1rem;
 }
 
-.contributor {
+.contributor a{
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    text-decoration: none;
 }
 
 .github-icon {
