@@ -48,7 +48,7 @@ class Invader {
         // Returns bool
         this.hp -= 100;
         if (this.hp === 0) {
-            return true; 
+            return true;
         }
         return false;
     }

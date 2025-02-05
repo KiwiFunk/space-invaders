@@ -315,18 +315,8 @@ function initInvaders(gameArea, rowLength = 4, maxColumns = 12) {
         for (let j = 0; j < rowLength; j++) { //How many rows of invaders
             const xpos = offsetX + (i * (invaderWidth + gap));
             const ypos = j * (invaderWidth + gap / 1.5); // Adjust vertical spacing as needed
-
-            let spawnChance = Math.random();
-
-            if (gameRound > 2 && spawnChance < 0.1) { // 10% chance to spawn a yellow invader
-                enemyInvaders[i][j] = new Invader('yellow', 100, xpos, ypos, 100);
-                enemyInvaders[i][j].spawn();
-            }
-
-            else {
-                enemyInvaders[i][j] = new Invader('green', 100, xpos, ypos, 100);
-                enemyInvaders[i][j].spawn();
-            }
+            enemyInvaders[i][j] = new Invader('green', 100, xpos, ypos, 100);
+            enemyInvaders[i][j].spawn();
         }
     }
 }
@@ -596,55 +586,14 @@ function gameOver(winner) {
 //Reset the game state
 function resetGame() {
 
-    // Reset pause state
-    paused = false;
-    pauseStartTime = 0;
+   resetUIElements();
 
-    //Reset Variables
-    gameStarted = false;
-    gameHasEnded = false;
-    moveAccumulator = 0;
-    shootAccumulator = 0;
+   resetGameState();
+   
+   clearGameObjects();
 
-    //If reset is called, round 1 is started. Reset intervals and round count
-    moveInterval = 300;
-    shootInterval = 1500;
-    gameRound = 1;
-
-    // Clear game area
-    const gameArea = document.getElementById('gameArea');
-    gameArea.innerHTML = '';
-
-    // Clear all invaders, player, and bullets
-    enemyInvaders.forEach(row => {
-        row.forEach(invader => {
-            invader.despawn();
-        });
-    });
-    enemyInvaders = [];
-
-    if (player) {
-        player.despawn();
-        player = null;
-    }
-
-    activeBullets.forEach(bullet => {
-        bullet.remove();
-    });
-    activeBullets = [];
-
-    const gameRoundElement = document.getElementById('gameRound');
-    gameRoundElement.innerText = `ROUND: ${1}`;
-
-    
-    const playerScore = document.getElementById('score'); //Reset current score
-    playerScore.innerText = 'SCORE: 000000';
-
-    backgroundMusic.currentTime = 0; // Reset background music
-    backgroundMusic.play();
-
-    lastTime = performance.now(); // Restart the game
-    requestAnimationFrame(gameLoop);
+   backgroundMusic.currentTime = 0;
+   backgroundMusic.play();
 }
 
 //MENU FUNCTIONS
