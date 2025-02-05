@@ -516,6 +516,11 @@ function gameOver(winner) {
 
 //Reset the game state
 function resetGame() {
+
+    // Reset pause state
+    paused = false;
+    pauseStartTime = 0;
+    
     //Reset Variables
     gameStarted = false;
     gameHasEnded = false;
@@ -727,7 +732,12 @@ function gameOverButtons() {
     });
 
     mainMenuButton.addEventListener('click', function () {
-        const gameOverScreen = document.getElementById('GameOverScreen');
+        mainMenuReturn();
+    });
+}
+
+function mainMenuReturn() {
+    const gameOverScreen = document.getElementById('GameOverScreen');
         const gameOverlay = document.querySelector('.gameOverlay');
         gameOverScreen.classList.add('hidden');
         document.querySelector('.hero').classList.remove('hidden');
@@ -776,6 +786,4 @@ function gameOverButtons() {
 
         const playerScore = document.getElementById('score');   //Reset current score
         playerScore.innerText = 'SCORE: 000000';
-    });
 }
-
