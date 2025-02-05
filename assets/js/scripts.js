@@ -421,8 +421,6 @@ function moveInvaders(moveDistance = 5) {
         keys.space = false;
     });
 
-
-
 //ATTACK FUNCTIONS
 
 function updateBullets() {
@@ -576,10 +574,7 @@ function gameOver(winner) {
         const gameArea = document.getElementById('gameArea');
         gameArea.innerHTML = '';
         
-        checkHighScore(currentScore);
-        const gameOverScreen = document.getElementById('GameOverScreen');
-        gameOverScreen.classList.remove('hidden');
-        gameOverButtons();
+        checkHighScore(currentScore); // Check highscore and show modal if needed
     }
 }
 
@@ -905,16 +900,35 @@ function checkHighScore(currentScore) {
     const lowestScore = highScores[highScores.length - 1].score;
 
     if (currentScore > lowestScore) {
-        const playerName = prompt('New High Score! Enter your name (max 6 chars):');
-        if (playerName) {
-            addHighScore({
-                name: playerName.slice(0, 6).toUpperCase(),
-                score: currentScore
-            });
-            return true;
-        }
+        const highscoreModal = document.getElementById('highscoreModal');
+        const highscoreNameInput = document.getElementById('highscoreNameInput');
+        const submitHighscoreButton = document.getElementById('submitHighscoreButton');
+
+        highscoreModal.classList.remove('hidden');
+
+        submitHighscoreButton.addEventListener('click', function () {
+            const playerName = highscoreNameInput.value.trim().slice(0, 6).toUpperCase();
+            if (playerName) {
+                addHighScore({
+                    name: playerName,
+                    score: currentScore
+                });
+                highscoreModal.classList.add('hidden');
+                showGameOverScreen(); // Show game over screen after submitting highscore
+            }
+        });
+
+        return true;
+    } else {
+        showGameOverScreen(); // Show game over screen if not a highscore
     }
     return false;
+}
+
+function showGameOverScreen() {
+    const gameOverScreen = document.getElementById('GameOverScreen');
+    gameOverScreen.classList.remove('hidden');
+    gameOverButtons();
 }
 
 function addHighScore(newScore) {

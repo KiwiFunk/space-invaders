@@ -460,6 +460,10 @@ body {
     color: var(--primary-font-color);
     font-size: 1.5em;
 }
+.game-over {
+    width: 90%;
+    height: 30%;
+}
 
 #GameOverScreen .btn {
     margin: 10px 0;
@@ -516,6 +520,65 @@ body {
 .highscoreScore {
     flex-grow: 1;
     text-align: right;
+}
+
+/* Highscore Modal Styles */
+#highscoreModal .modal-content {
+    background-color: #333333;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 0.25rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    width: 80%;
+    max-width: 600px;
+}
+
+#highscoreModal .modal-header {
+    display: flex;
+    justify-content: center;
+    border-bottom: 1px solid #e9ecef;
+    padding-bottom: 0.75rem;
+    margin-bottom: 1rem;
+    color: var(--primary-font-color);
+}
+
+#highscoreModal .modal-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    letter-spacing: 3px;
+}
+
+#highscoreModal .modal-body {
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    color: var(--primary-font-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+#highscoreModal .modal-footer {
+    display: flex;
+    justify-content: center;
+    padding-top: 1rem;
+    border-top: 1px solid #e9ecef;
+}
+
+#highscoreNameInput {
+    font-size: 1.2rem;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    border: 1px solid #ddd;
+    width: 100%;
+    max-width: 300px;
+    text-align: center;
+}
+
+/* Highscore Modal Styles */
+#highscoreModal {
+    z-index: 101; /* Ensure it is higher than the game over screen */
 }
 
 /* Touch Controls */
